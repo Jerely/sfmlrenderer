@@ -1,29 +1,45 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
+union Color {
+    uint32_t u32color;
+    struct U8color {
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
+        uint8_t a;
+        void green() { r = 0; g = 255; b = 0; a = 255; }
+    };
+    U8color u8color;
+};
+
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 
 const int WIDTH = 10;
 const int HEIGHT = 10;
 
-void fillPixels(uint8_t* pixels) {
-    memset(pixels, 0, WIDTH*HEIGHT*4);
-    for(uint32_t x = 0; x < WIDTH; x++) {
-        for(uint32_t y = 0; y < HEIGHT; y++) {
-            pixels[4*(y + x*WIDTH)+0] = 0;   //R
-            pixels[4*(y + x*WIDTH)+1] = 255; //G
-            pixels[4*(y + x*WIDTH)+2] = 0;   //B
-            pixels[4*(y + x*WIDTH)+3] = 255; //A
+inline void setPixel(uint8_t* bitmap, uint32_t x, uint32_t y, Color color) {
+    ((uint32_t*)bitmap)[x+y*WIDTH] = color.u32color;
+}
+
+void fillPixels(uint8_t* bitmap) {
+    memset(bitmap, 0, WIDTH*HEIGHT*4);
+    for(uint32_t y = 0; y < WIDTH; y++) {
+        for(uint32_t x = 0; x < HEIGHT; x++) {
+            Color green;
+            green.u8color.green();
+            setPixel(bitmap, x, y, green);
         }
     }
 }
+
 
 int main()
 {
     sf::Sprite sprite;
     sf::Image image;
-    uint8_t* pixels = new uint8_t[WIDTH*HEIGHT*4];
+    uint8_t* bitmap = new uint8_t[WIDTH*HEIGHT*4];
 
     sf::RenderWindow window(sf::VideoMode(WIDTH*20, HEIGHT*20), "SFML window");
     sf::Texture texture;
@@ -36,8 +52,8 @@ int main()
                 window.close();
         }
 
-        fillPixels(pixels);
-        image.create(WIDTH, HEIGHT, pixels); 
+        fillPixels(bitmap);
+        image.create(WIDTH, HEIGHT, bitmap); 
         texture.loadFromImage(image); 
         sprite.setTexture(texture);
         window.clear();
@@ -46,6 +62,6 @@ int main()
         window.display();
     }
 
-    delete[] pixels;
+    delete[] bitmap;
     return EXIT_SUCCESS;
 }
