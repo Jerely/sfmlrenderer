@@ -1,7 +1,9 @@
 #pragma once
 #include "types.h"
+#include <cmath>
 
 extern const int WIDTH;
+extern const int HEIGHT;
 
 struct Color {
     uint8_t r;
@@ -20,4 +22,14 @@ inline void setPixel(uint8_t* bitmap, uint32_t x, uint32_t y, Color color) {
     ((uint32_t*)bitmap)[x+y*WIDTH] = color.toU32();
 }
 
-void line(uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, uint8_t* bitmap, Color color);
+void plotLineLow(int x0, int y0, int x1, int y1, uint8_t* bitmap);
+void plotLineHigh(int x0, int y0, int x1, int y1, uint8_t* bitmap);
+void plotLine(int x0, int y0, int x1, int y1, uint8_t* bitmap);
+
+inline void plotLine(float fx0, float fy0, float fx1, float fy1, uint8_t* bitmap) {
+    int x0 = round(fx0 * HEIGHT);
+    int x1 = round(fx1 * HEIGHT);
+    int y0 = round((1-fy0) * WIDTH);
+    int y1 = round((1-fy1) * WIDTH);
+    plotLine(x0, y0, x1, y1, bitmap);
+}
