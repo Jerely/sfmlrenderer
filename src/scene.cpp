@@ -53,6 +53,7 @@ void Scene::populateProj() {
 	float fAspectRatio = (float)HEIGHT / (float)WIDTH;
 	float fFovRad = 1.0f / tanf(FOV * 0.5f / 180.0f * 3.14159f);
 
+    matProj = {0};
 	matProj.m[0][0] = fAspectRatio * fFovRad;
 	matProj.m[1][1] = fFovRad;
 	matProj.m[2][2] = fFar / (fFar - fNear);
@@ -61,32 +62,12 @@ void Scene::populateProj() {
 	matProj.m[3][3] = 0.0f;
 }
 
-void Scene::draw(sf::RenderWindow& window, uint8_t* bitmap) {
-    static sf::Sprite sprite;
-    static sf::Image image;
-    static sf::Texture texture;
-
-    fillPixels(bitmap, BLACK);
-    /*
-    line(13, 20, 80, 40, bitmap, WHITE);
-    line(20, 13, 40, 80, bitmap, RED);
-    line(80, 40, 13, 20, bitmap, RED);
-    */
-
-    //draw triangles
+void Scene::draw(uint8_t* bitmap) {
     for(auto tri : cube.tris) {
         Triangle prepared;
         prepare(tri, prepared);
-        drawTriangle(bitmap, prepared, WHITE);
+        drawTriangle(prepared, bitmap);
     }
-
-    image.create(WIDTH, HEIGHT, bitmap); 
-    texture.loadFromImage(image); 
-    sprite.setTexture(texture);
-    sprite.setScale(SCALEW, SCALEH);
-    window.clear();
-    window.draw(sprite);
-    window.display();
 }
 
 void Scene::prepare(Triangle& inTri, Triangle& triProjected) {
@@ -103,6 +84,7 @@ void Scene::prepare(Triangle& inTri, Triangle& triProjected) {
 	MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], matProj);
 
 	// Scale into view
+    /*
 	triProjected.p[0].x += 1.0f; triProjected.p[0].y += 1.0f;
 	triProjected.p[1].x += 1.0f; triProjected.p[1].y += 1.0f;
 	triProjected.p[2].x += 1.0f; triProjected.p[2].y += 1.0f;
@@ -112,10 +94,7 @@ void Scene::prepare(Triangle& inTri, Triangle& triProjected) {
 	triProjected.p[1].y *= 0.5f * (float)HEIGHT;
 	triProjected.p[2].x *= 0.5f * (float)WIDTH;
 	triProjected.p[2].y *= 0.5f * (float)HEIGHT;
-}
-
-void drawTriangle(uint8_t* bitmap, Triangle& tri, Color color) {
-    //???
+    */
 }
 
 void Scene::initCube() {

@@ -34,6 +34,8 @@ int main()
     uint8_t* bitmap = new uint8_t[WIDTH*HEIGHT*4];
     sf::RenderWindow window(sf::VideoMode(WIDTH*SCALEW, HEIGHT*SCALEH), "SFML window");
     Scene scene;
+    scene.initCube();
+    scene.populateProj();
     
     while (window.isOpen())
     {
@@ -45,11 +47,7 @@ int main()
         }
      
         fillPixels(bitmap, BLACK);
-        //plotLine(0.10f, 0.10f, 0.50f, 0.75f, bitmap);
-        Triangle tri = {
-            {.0f, .5f, .0f,     .5f, .0f, .0f,   .0f, .0f, .0f}
-        };
-        drawTriangle(tri, bitmap);
+        scene.draw(bitmap);
         displayBitmap(window, bitmap);
         //scene.draw(window, bitmap);
     }

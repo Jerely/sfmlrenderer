@@ -16,7 +16,7 @@ struct Scene {
     Mesh cube;
     float fTheta;
 
-    void draw(sf::RenderWindow&, uint8_t*);
+    void draw(uint8_t*);
     void initCube();
     void populateProj();
     void update(float);
@@ -24,6 +24,5 @@ struct Scene {
     Scene();
 };
 
-void drawTriangle(uint8_t* bitmap, Triangle& tri, Color color);
 void fillPixels(uint8_t* bitmap, Color color);
 void MultiplyMatrixVector(Vec3 &i, Vec3 &o, Mtx44 &m);
