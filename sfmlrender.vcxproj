@@ -139,12 +139,16 @@
     <ClCompile Include="src\line.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\triangle.cpp" />
+    <ClCompile Include="src\vec3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\line.h" />
     <ClInclude Include="inc\scene.h" />
+    <ClInclude Include="inc\triangle.h" />
     <ClInclude Include="inc\types.h" />
-    <ClInclude Include="inc\vec3d.h" />
+    <ClInclude Include="inc\vec3.h" />
+    <ClInclude Include="src\vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

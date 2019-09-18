@@ -1,7 +1,8 @@
 #pragma once
 #include "types.h"
-#include "vec3d.h"
+#include "vec3.h"
 #include "line.h"
+#include "triangle.h"
 #include <SFML/Graphics.hpp>
 
 extern const int WIDTH;

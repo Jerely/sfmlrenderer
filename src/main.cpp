@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "line.h"
 #include "types.h"
-#include "vec3d.h"
+#include "vec3.h"
 #include "scene.h"
 
 
@@ -45,8 +45,11 @@ int main()
         }
      
         fillPixels(bitmap, BLACK);
-        //plotLine(100, 50, 50, 75, bitmap);
-        plotLine(0.10f, 0.10f, 0.50f, 0.75f, bitmap);
+        //plotLine(0.10f, 0.10f, 0.50f, 0.75f, bitmap);
+        Triangle tri = {
+            {.0f, .5f, .0f,     .5f, .0f, .0f,   .0f, .0f, .0f}
+        };
+        drawTriangle(tri, bitmap);
         displayBitmap(window, bitmap);
         //scene.draw(window, bitmap);
     }

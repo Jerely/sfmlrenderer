@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "line.h"
+#include "triangle.h"
 
 Scene::Scene() {
     initCube();
