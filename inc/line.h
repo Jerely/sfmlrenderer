@@ -27,9 +27,9 @@ void plotLineHigh(int x0, int y0, int x1, int y1, uint8_t* bitmap);
 void plotLine(int x0, int y0, int x1, int y1, uint8_t* bitmap);
 
 inline void plotLine(float fx0, float fy0, float fx1, float fy1, uint8_t* bitmap) {
-    int x0 = round(fx0 * (HEIGHT-1));
-    int x1 = round(fx1 * (HEIGHT-1));
-    int y0 = round((1-fy0) * (WIDTH-1));
-    int y1 = round((1-fy1) * (WIDTH-1));
+    int x0 = round((fx0+1.0f) * 0.5f * (HEIGHT-1));
+    int x1 = round((fx1+1.0f) * 0.5f * (HEIGHT-1));
+    int y0 = round((1.0f-(fy0+1.0f)*0.5f) * (WIDTH-1));
+    int y1 = round((1.0f-(fy1+1.0f)*0.5f) * (WIDTH-1));
     plotLine(x0, y0, x1, y1, bitmap);
 }

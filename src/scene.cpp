@@ -2,7 +2,11 @@
 #include "line.h"
 #include "triangle.h"
 
-Scene::Scene() {
+Scene::Scene():
+    matProj({0}),
+    matRotZ({0}),
+    matRotX({0})
+{
     initCube();
     populateProj();
 };
@@ -27,25 +31,15 @@ void fillPixels(uint8_t* bitmap, Color color) {
     }
 }
 
-void Scene::update(float fElapsedTime) {
-	fTheta += 1.0f * fElapsedTime;
+void Scene::rotateX(float angle) {
+    matRotX.m[0][0] = 1.0f;
+    matRotX.m[1][1] = cosf(angle);
+    matRotX.m[1][2] = sinf(angle);
+    matRotX.m[2][1] = -sinf(angle);
+    matRotX.m[2][2] = cosf(angle);
+    matRotX.m[3][3] = 1.0f;
+}
 
-	// Rotation Z
-	matRotZ.m[0][0] = cosf(fTheta);
-	matRotZ.m[0][1] = sinf(fTheta);
-	matRotZ.m[1][0] = -sinf(fTheta);
-	matRotZ.m[1][1] = cosf(fTheta);
-	matRotZ.m[2][2] = 1;
-	matRotZ.m[3][3] = 1;
-
-	// Rotation X
-	matRotX.m[0][0] = 1;
-	matRotX.m[1][1] = cosf(fTheta * 0.5f);
-	matRotX.m[1][2] = sinf(fTheta * 0.5f);
-	matRotX.m[2][1] = -sinf(fTheta * 0.5f);
-	matRotX.m[2][2] = cosf(fTheta * 0.5f);
-	matRotX.m[3][3] = 1;
-};
 
 void Scene::populateProj() {
 	float fNear = 0.1f;
@@ -53,7 +47,6 @@ void Scene::populateProj() {
 	float fAspectRatio = (float)HEIGHT / (float)WIDTH;
 	float fFovRad = 1.0f / tanf(FOV * 0.5f / 180.0f * 3.14159f);
 
-    matProj = {0};
 	matProj.m[0][0] = fAspectRatio * fFovRad;
 	matProj.m[1][1] = fFovRad;
 	matProj.m[2][2] = fFar / (fFar - fNear);
@@ -63,12 +56,15 @@ void Scene::populateProj() {
 }
 
 void Scene::draw(uint8_t* bitmap) {
+    scale(.5f, .5f, .5f);
+    translate(.5f, .5f, 3.0f);
     for(auto tri : cube.tris) {
         Triangle prepared;
         prepare(tri, prepared);
         drawTriangle(prepared, bitmap);
     }
 }
+
 
 void Scene::prepare(Triangle& inTri, Triangle& triProjected) {
     Triangle triTranslated;
@@ -78,23 +74,33 @@ void Scene::prepare(Triangle& inTri, Triangle& triProjected) {
 	triTranslated.p[1].z = inTri.p[1].z + 3.0f;
 	triTranslated.p[2].z = inTri.p[2].z + 3.0f;
 
+	triTranslated.p[0].x = inTri.p[0].x + .5f;
+	triTranslated.p[1].x = inTri.p[1].x + .5f;
+	triTranslated.p[2].x = inTri.p[2].x + .5f;
+
+	triTranslated.p[0].y = inTri.p[0].y + .5f;
+	triTranslated.p[1].y = inTri.p[1].y + .5f;
+	triTranslated.p[2].y = inTri.p[2].y + .5f;
+
+    //Rotate
+
+    rotateX(0.0f);
+
+	MultiplyMatrixVector(triTranslated.p[0], triTranslated.p[0], matRotX);
+	MultiplyMatrixVector(triTranslated.p[1], triTranslated.p[1], matRotX);
+	MultiplyMatrixVector(triTranslated.p[2], triTranslated.p[2], matRotX);
+
+    /*
+	MultiplyMatrixVector(triTranslated.p[0], triTranslated.p[0], matRotZ);
+	MultiplyMatrixVector(triTranslated.p[1], triTranslated.p[1], matRotZ);
+	MultiplyMatrixVector(triTranslated.p[2], triTranslated.p[2], matRotZ);
+    */
+
 	// Project triangles from 3D --> 2D
 	MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], matProj);
 	MultiplyMatrixVector(triTranslated.p[1], triProjected.p[1], matProj);
 	MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], matProj);
 
-	// Scale into view
-    /*
-	triProjected.p[0].x += 1.0f; triProjected.p[0].y += 1.0f;
-	triProjected.p[1].x += 1.0f; triProjected.p[1].y += 1.0f;
-	triProjected.p[2].x += 1.0f; triProjected.p[2].y += 1.0f;
-	triProjected.p[0].x *= 0.5f * (float)WIDTH;
-	triProjected.p[0].y *= 0.5f * (float)HEIGHT;
-	triProjected.p[1].x *= 0.5f * (float)WIDTH;
-	triProjected.p[1].y *= 0.5f * (float)HEIGHT;
-	triProjected.p[2].x *= 0.5f * (float)WIDTH;
-	triProjected.p[2].y *= 0.5f * (float)HEIGHT;
-    */
 }
 
 void Scene::initCube() {
