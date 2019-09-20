@@ -12,7 +12,7 @@ extern const int SCALEW;
 extern const int SCALEH;
 
 struct Scene {
-    Mtx44 matProj, matRotZ, matRotX, matScale, matTransl;
+    Mtx44 matProj, matRotZ, matRotX;
     Mesh cube;
 
     void draw(uint8_t*);
@@ -20,8 +20,6 @@ struct Scene {
     void populateProj();
     void prepare(Triangle& inTri, Triangle& triProjected);
     void rotateX(float angle);
-    void translate(float dx, float dy, float dz);
-    void scale(float qx, float qy, float qz);
     Scene();
 };
 

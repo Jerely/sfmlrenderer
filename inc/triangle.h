@@ -3,6 +3,8 @@
 
 struct Triangle {
     Vec3 p[3];
+    Triangle();
+    Triangle(Vec3 const &p0, Vec3 const &p1, Vec3 const &p2);
 };
 
 struct Mesh {

@@ -56,8 +56,6 @@ void Scene::populateProj() {
 }
 
 void Scene::draw(uint8_t* bitmap) {
-    scale(.5f, .5f, .5f);
-    translate(.5f, .5f, 3.0f);
     for(auto tri : cube.tris) {
         Triangle prepared;
         prepare(tri, prepared);
@@ -65,8 +63,8 @@ void Scene::draw(uint8_t* bitmap) {
     }
 }
 
-
-void Scene::prepare(Triangle& inTri, Triangle& triProjected) {
+void Scene::prepare(Triangle& inTri, Triangle& outTri) {
+    /*
     Triangle triTranslated;
     // Offset into the screen
 	triTranslated = inTri;
@@ -90,44 +88,39 @@ void Scene::prepare(Triangle& inTri, Triangle& triProjected) {
 	MultiplyMatrixVector(triTranslated.p[1], triTranslated.p[1], matRotX);
 	MultiplyMatrixVector(triTranslated.p[2], triTranslated.p[2], matRotX);
 
-    /*
 	MultiplyMatrixVector(triTranslated.p[0], triTranslated.p[0], matRotZ);
 	MultiplyMatrixVector(triTranslated.p[1], triTranslated.p[1], matRotZ);
 	MultiplyMatrixVector(triTranslated.p[2], triTranslated.p[2], matRotZ);
-    */
 
 	// Project triangles from 3D --> 2D
 	MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], matProj);
 	MultiplyMatrixVector(triTranslated.p[1], triProjected.p[1], matProj);
 	MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], matProj);
+    */
+
+    Vec3 shift(.5f, .5f, 3.0f);
+    for(int i = 0; i < 3; ++i) {
+        outTri.p[i] = (inTri.p[i] * .9f) + shift;
+    	MultiplyMatrixVector(outTri.p[i], outTri.p[i], matProj);
+    }
 
 }
 
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ 0.0f, 0.0f, 0.0f,    0.0f, 1.0f, 0.0f,    1.0f, 1.0f, 0.0f },
-		{ 0.0f, 0.0f, 0.0f,    1.0f, 1.0f, 0.0f,    1.0f, 0.0f, 0.0f },
-
-		// EAST                                                      
-		{ 1.0f, 0.0f, 0.0f,    1.0f, 1.0f, 0.0f,    1.0f, 1.0f, 1.0f },
-		{ 1.0f, 0.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 0.0f, 1.0f },
-
-		// NORTH                                                     
-		{ 1.0f, 0.0f, 1.0f,    1.0f, 1.0f, 1.0f,    0.0f, 1.0f, 1.0f },
-		{ 1.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f,    0.0f, 0.0f, 1.0f },
-
-		// WEST                                                      
-		{ 0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 1.0f,    0.0f, 1.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f,    0.0f, 1.0f, 0.0f,    0.0f, 0.0f, 0.0f },
-
-		// TOP                                                       
-		{ 0.0f, 1.0f, 0.0f,    0.0f, 1.0f, 1.0f,    1.0f, 1.0f, 1.0f },
-		{ 0.0f, 1.0f, 0.0f,    1.0f, 1.0f, 1.0f,    1.0f, 1.0f, 0.0f },
-
-		// BOTTOM                                                    
-		{ 1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f },
-		{ 1.0f, 0.0f, 1.0f,    0.0f, 0.0f, 0.0f,    1.0f, 0.0f, 0.0f },
+		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f) },
+		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
+		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
+		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 0.0f, 1.0f) },
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f) }, //NORTH
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f) },
+		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f) }, //WEST
+		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 0.0f, 0.0f) },
+		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
+		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 0.0f) },
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f) }, //BOTTOM
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
     };
 };
 
