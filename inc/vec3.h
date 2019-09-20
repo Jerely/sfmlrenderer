@@ -12,7 +12,3 @@ struct Vec3 {
     Vec3 operator *(const float) const;
 };
 
-struct Mtx44 {
-    float m[4][4];
-};
-

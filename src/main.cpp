@@ -5,7 +5,6 @@
 #include "vec3.h"
 #include "scene.h"
 
-
 const int WIDTH = 200;
 const int HEIGHT = 200;
 const float FOV = 90.0f;
@@ -42,6 +41,36 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+                scene.thetaX += 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+                scene.thetaX -= 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+                scene.thetaY -= 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+                scene.thetaY += 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+                scene.dx -= 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+                scene.dx += 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                scene.dy += 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+                scene.dy -= 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+                scene.dz += 0.1f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+                scene.dz -= 0.1f;
+            }
             if (event.type == sf::Event::Closed)
                 window.close();
         }

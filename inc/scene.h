@@ -3,6 +3,7 @@
 #include "vec3.h"
 #include "line.h"
 #include "triangle.h"
+#include "mtx44.h"
 #include <SFML/Graphics.hpp>
 
 extern const int WIDTH;
@@ -12,14 +13,17 @@ extern const int SCALEW;
 extern const int SCALEH;
 
 struct Scene {
-    Mtx44 matProj, matRotZ, matRotX;
+    Mtx44 matProj, matRotY, matRotX, matRotZ, matRXP;
     Mesh cube;
+    float thetaX, thetaY, dx, dy, dz;
 
     void draw(uint8_t*);
     void initCube();
     void populateProj();
-    void prepare(Triangle& inTri, Triangle& triProjected);
+    void prepare(Triangle& inTri, Triangle& outTri);
     void rotateX(float angle);
+    void rotateY(float angle);
+    void rotateZ(float angle);
     Scene();
 };
 

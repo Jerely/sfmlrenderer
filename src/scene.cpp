@@ -1,15 +1,18 @@
 #include "scene.h"
-#include "line.h"
-#include "triangle.h"
 
-Scene::Scene():
-    matProj({0}),
-    matRotZ({0}),
-    matRotX({0})
+
+Scene::Scene() :
+thetaX(0), thetaY(0), dx(0), dy(0), dz(0)
 {
     initCube();
     populateProj();
 };
+
+void MultiplyMatrixVector2(Vec3 &i, Vec3 &o, Mtx44 &m) {
+	o.x = i.x * m.m[0][0] + i.y * m.m[1][0] + i.z * m.m[2][0] + m.m[3][0];
+	o.y = i.x * m.m[0][1] + i.y * m.m[1][1] + i.z * m.m[2][1] + m.m[3][1];
+	o.z = i.x * m.m[0][2] + i.y * m.m[1][2] + i.z * m.m[2][2] + m.m[3][2];
+}
 
 void MultiplyMatrixVector(Vec3 &i, Vec3 &o, Mtx44 &m) {
 	o.x = i.x * m.m[0][0] + i.y * m.m[1][0] + i.z * m.m[2][0] + m.m[3][0];
@@ -17,10 +20,9 @@ void MultiplyMatrixVector(Vec3 &i, Vec3 &o, Mtx44 &m) {
 	o.z = i.x * m.m[0][2] + i.y * m.m[1][2] + i.z * m.m[2][2] + m.m[3][2];
 	float w = i.x * m.m[0][3] + i.y * m.m[1][3] + i.z * m.m[2][3] + m.m[3][3];
 
-	if (w != 0.0f)
-	{
-		o.x /= w; o.y /= w; o.z /= w;
-	}
+    if(w == 0.0f)
+        w = 0.001f;
+    o.x /= w; o.y /= w; o.z /= w;
 }
 
 void fillPixels(uint8_t* bitmap, Color color) {
@@ -31,6 +33,15 @@ void fillPixels(uint8_t* bitmap, Color color) {
     }
 }
 
+void Scene::rotateY(float angle) {
+    matRotY.m[0][0] = cosf(angle);
+    matRotY.m[0][2] = -sinf(angle);
+    matRotY.m[1][1] = 1.0f;
+    matRotY.m[2][1] = sinf(angle);
+    matRotY.m[2][2] = cosf(angle);
+    matRotY.m[3][3] = 1.0f;
+}
+
 void Scene::rotateX(float angle) {
     matRotX.m[0][0] = 1.0f;
     matRotX.m[1][1] = cosf(angle);
@@ -38,6 +49,15 @@ void Scene::rotateX(float angle) {
     matRotX.m[2][1] = -sinf(angle);
     matRotX.m[2][2] = cosf(angle);
     matRotX.m[3][3] = 1.0f;
+}
+
+void Scene::rotateZ(float angle) {
+    matRotZ.m[0][0] = cosf(angle);
+    matRotZ.m[0][1] = sinf(angle);
+    matRotZ.m[1][0] = -sinf(angle);
+    matRotZ.m[1][1] = cosf(angle);
+    matRotZ.m[2][2] = 1.0f;
+    matRotZ.m[3][3] = 1.0f;
 }
 
 
@@ -56,6 +76,10 @@ void Scene::populateProj() {
 }
 
 void Scene::draw(uint8_t* bitmap) {
+    rotateX(thetaX);
+    //rotateY(thetaY);
+    rotateZ(thetaY);
+    //matRXP = matProj * matRotX;
     for(auto tri : cube.tris) {
         Triangle prepared;
         prepare(tri, prepared);
@@ -64,44 +88,17 @@ void Scene::draw(uint8_t* bitmap) {
 }
 
 void Scene::prepare(Triangle& inTri, Triangle& outTri) {
-    /*
-    Triangle triTranslated;
-    // Offset into the screen
-	triTranslated = inTri;
-	triTranslated.p[0].z = inTri.p[0].z + 3.0f;
-	triTranslated.p[1].z = inTri.p[1].z + 3.0f;
-	triTranslated.p[2].z = inTri.p[2].z + 3.0f;
-
-	triTranslated.p[0].x = inTri.p[0].x + .5f;
-	triTranslated.p[1].x = inTri.p[1].x + .5f;
-	triTranslated.p[2].x = inTri.p[2].x + .5f;
-
-	triTranslated.p[0].y = inTri.p[0].y + .5f;
-	triTranslated.p[1].y = inTri.p[1].y + .5f;
-	triTranslated.p[2].y = inTri.p[2].y + .5f;
-
-    //Rotate
-
-    rotateX(0.0f);
-
-	MultiplyMatrixVector(triTranslated.p[0], triTranslated.p[0], matRotX);
-	MultiplyMatrixVector(triTranslated.p[1], triTranslated.p[1], matRotX);
-	MultiplyMatrixVector(triTranslated.p[2], triTranslated.p[2], matRotX);
-
-	MultiplyMatrixVector(triTranslated.p[0], triTranslated.p[0], matRotZ);
-	MultiplyMatrixVector(triTranslated.p[1], triTranslated.p[1], matRotZ);
-	MultiplyMatrixVector(triTranslated.p[2], triTranslated.p[2], matRotZ);
-
-	// Project triangles from 3D --> 2D
-	MultiplyMatrixVector(triTranslated.p[0], triProjected.p[0], matProj);
-	MultiplyMatrixVector(triTranslated.p[1], triProjected.p[1], matProj);
-	MultiplyMatrixVector(triTranslated.p[2], triProjected.p[2], matProj);
-    */
-
-    Vec3 shift(.5f, .5f, 3.0f);
+    Vec3 vshift(.5f+dx, .5f+dy, 3.0f+dz);
+    Triangle rotXtri;
+    Triangle translTri;
+    Triangle rotYtri;
     for(int i = 0; i < 3; ++i) {
-        outTri.p[i] = (inTri.p[i] * .9f) + shift;
-    	MultiplyMatrixVector(outTri.p[i], outTri.p[i], matProj);
+        //outTri.p[i] *= 0.1f;
+        //MultiplyMatrixVector2(outTri.p[i], outTri.p[i], matRotY);
+        MultiplyMatrixVector2(inTri.p[i], rotYtri.p[i], matRotZ);
+        MultiplyMatrixVector2(rotYtri.p[i], rotXtri.p[i], matRotX);
+        translTri.p[i] = (rotXtri.p[i] * 1.0f) + vshift;
+    	MultiplyMatrixVector(translTri.p[i], outTri.p[i], matProj);
     }
 
 }
@@ -109,18 +106,18 @@ void Scene::prepare(Triangle& inTri, Triangle& outTri) {
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f) },
-		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
-		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
-		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 0.0f, 1.0f) },
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f) }, //NORTH
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f) },
-		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f) }, //WEST
-		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 0.0f, 0.0f) },
-		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
-		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 0.0f) },
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f) }, //BOTTOM
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
+		{ Vec3(-1.0f, -1.0f, -1.0f),    Vec3(-1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f) },
+		{ Vec3(-1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f),    Vec3(1.0f, -1.0f, -1.0f) },
+		{ Vec3(1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
+		{ Vec3(1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, -1.0f, 1.0f) },
+		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f) }, //NORTH
+		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(-1.0f, -1.0f, 1.0f) },
+		{ Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(-1.0f, 1.0f, -1.0f) }, //WEST
+		{ Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, -1.0f),    Vec3(-1.0f, -1.0f, -1.0f) },
+		{ Vec3(-1.0f, 1.0f, -1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
+		{ Vec3(-1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, -1.0f) },
+		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, -1.0f) }, //BOTTOM
+		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, -1.0f),    Vec3(1.0f, -1.0f, -1.0f) },
     };
 };
 

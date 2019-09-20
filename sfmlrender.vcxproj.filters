@@ -30,6 +30,9 @@
     <ClCompile Include="src\vec3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\mtx44.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\line.h">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="src\vec3.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\mtx44.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
