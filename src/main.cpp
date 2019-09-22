@@ -33,9 +33,6 @@ int main()
     uint8_t* bitmap = new uint8_t[WIDTH*HEIGHT*4];
     sf::RenderWindow window(sf::VideoMode(WIDTH*SCALEW, HEIGHT*SCALEH), "SFML window");
     Scene scene;
-    scene.initCube();
-    scene.populateProj();
-    
     while (window.isOpen())
     {
         sf::Event event;
@@ -76,9 +73,9 @@ int main()
         }
      
         fillPixels(bitmap, BLACK);
+        scene.update();
         scene.draw(bitmap);
         displayBitmap(window, bitmap);
-        //scene.draw(window, bitmap);
     }
 
     delete[] bitmap;

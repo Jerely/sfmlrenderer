@@ -5,7 +5,7 @@ Scene::Scene() :
 thetaX(0), thetaZ(0), dx(0), dy(0), dz(0)
 {
     initCube();
-    populateProj();
+    project();
 };
 
 void MultiplyMatrixVector2(Vec3 &i, Vec3 &o, Mtx44 &m) {
@@ -61,7 +61,7 @@ void Scene::rotateZ(float angle) {
 }
 
 
-void Scene::populateProj() {
+void Scene::project() {
 	float fNear = 0.1f;
 	float fFar = 1000.0f;
 	float fAspectRatio = (float)HEIGHT / (float)WIDTH;
@@ -75,12 +75,15 @@ void Scene::populateProj() {
 	matProj.m[3][3] = 0.0f;
 }
 
-void Scene::draw(uint8_t* bitmap) {
+void Scene::update() {
     rotateX(thetaX);
     rotateZ(thetaZ);
     translate(.5f+dx, .5f+dy, 3.0f+dz);
     scale(1.0f);
     matSRT = matScale * matRotZ * matRotX * matTranslate * matProj;
+}
+
+void Scene::draw(uint8_t* bitmap) {
     for(auto tri : cube.tris) {
         Triangle srt;
         for(int i = 0; i < 3; ++i) {

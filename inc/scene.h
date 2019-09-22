@@ -19,12 +19,13 @@ struct Scene {
 
     void draw(uint8_t*);
     void initCube();
-    void populateProj();
+    void project();
     void rotateX(float angle);
     void rotateY(float angle);
     void rotateZ(float angle);
     void translate(float x, float y, float z);
     void scale(float q);
+    void update();
     Scene();
 };
 
