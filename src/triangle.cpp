@@ -21,5 +21,5 @@ void Triangle::computeNorm() {
     Vec3 line1 = p[1] - p[0];
     Vec3 line2 = p[2] - p[0];
     norm = line1.crossProd(line2);
-    norm.z /= sqrtf(norm.dotProduct(norm));
+    //norm.z /= sqrtf(norm.dotProduct(norm));
 }
