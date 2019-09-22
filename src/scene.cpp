@@ -2,7 +2,7 @@
 
 
 Scene::Scene() :
-thetaX(0), thetaZ(0), dx(0), dy(0), dz(0)
+thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0)
 {
     initCube();
     project();
