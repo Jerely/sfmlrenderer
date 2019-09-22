@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "mtx44.h"
 using namespace std;
 
 struct Vec3 {
@@ -10,5 +11,6 @@ struct Vec3 {
     Vec3& operator*=(float);
     Vec3 operator+(Vec3 const &) const;
     Vec3 operator *(const float) const;
+    Vec3 operator *(const Mtx44&) const;
 };
 

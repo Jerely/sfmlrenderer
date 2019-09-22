@@ -79,12 +79,13 @@ void Scene::draw(uint8_t* bitmap) {
     rotateX(thetaX);
     rotateZ(thetaZ);
     translate(.5f+dx, .5f+dy, 3.0f+dz);
-    scale(0.5f);
+    scale(1.0f);
     matSRT = matScale * matRotZ * matRotX * matTranslate * matProj;
     for(auto tri : cube.tris) {
         Triangle srt;
         for(int i = 0; i < 3; ++i) {
         	MultiplyMatrixVector(tri.p[i], srt.p[i], matSRT);
+            srt.p[i] = tri.p[i] * matSRT;
         }
         drawTriangle(srt, bitmap);
     }
