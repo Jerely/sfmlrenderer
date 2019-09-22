@@ -90,7 +90,8 @@ void Scene::draw(uint8_t* bitmap) {
         for(int i = 0; i < 3; ++i) {
             srt.p[i] = (tri.p[i] * matSRT);
         }
-        if(isVisible(srt)) {
+        srt.computeNorm();
+        if(srt.norm.dotProduct(srt.p[0]) < 0) {
             Triangle proj;
             for(int i = 0; i < 3; ++i) {
                 proj.p[i] = srt.p[i] * matProj;
@@ -104,18 +105,18 @@ void Scene::draw(uint8_t* bitmap) {
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ Vec3(-1.0f, -1.0f, -1.0f),    Vec3(-1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f) },
-		{ Vec3(-1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f),    Vec3(1.0f, -1.0f, -1.0f) },
-		{ Vec3(1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
-		{ Vec3(1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, -1.0f, 1.0f) },
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f) }, //NORTH
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(-1.0f, -1.0f, 1.0f) },
-		{ Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(-1.0f, 1.0f, -1.0f) }, //WEST
-		{ Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, -1.0f),    Vec3(-1.0f, -1.0f, -1.0f) },
-		{ Vec3(-1.0f, 1.0f, -1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
-		{ Vec3(-1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, -1.0f) },
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, -1.0f) }, //BOTTOM
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, -1.0f),    Vec3(1.0f, -1.0f, -1.0f) },
+		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f) },
+		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
+		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
+		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 0.0f, 1.0f) },
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f) }, //NORTH
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f) },
+		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f) }, //WEST
+		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 0.0f, 0.0f) },
+		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
+		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 0.0f) },
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f) }, //BOTTOM
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
     };
 };
 
@@ -137,10 +138,3 @@ void Scene::scale(float q) {
     matScale.m[3][3] = 1.0f;
 }
 
-bool Scene::isVisible(const Triangle& tri) const {
-    Vec3 line1 = tri.p[1] - tri.p[0];
-    Vec3 line2 = tri.p[2] - tri.p[0];
-    Vec3 normal = line1.crossProd(line2);
-    
-    return normal.dotProduct(tri.p[0]) < 0;
-}

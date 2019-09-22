@@ -76,3 +76,11 @@ Vec3 Vec3::operator-(const Vec3& in) const {
 float Vec3::dotProduct(const Vec3& in) const {
     return x * in.x + y * in.y + z * in.z;
 }
+
+
+Vec3& Vec3::operator/=(float q) {
+    x /= q;
+    y /= q;
+    z /= q;
+    return *this;
+}
