@@ -3,20 +3,20 @@
 #include "vec3.h"
 #include <cmath>
 
-Triangle::Triangle() :
-    p{Vec3(), Vec3(), Vec3()} {};
+Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2) :
+v{v0, v1, v2} {};
 
-Triangle::Triangle(Vec3 const &p0, Vec3 const &p1, Vec3 const &p2) :
-    p{p0, p1, p2} 
-{
-};
+
+
+Triangle::Triangle() {};
+
 
 void Triangle::draw(RenderingMode mode, uint8_t* bitmap) {
     switch(mode) {
         case WIREFRAME:
-            plotLine(p[0].x, p[0].y, p[1].x, p[1].y, bitmap); 
-            plotLine(p[0].x, p[0].y, p[2].x, p[2].y, bitmap); 
-            plotLine(p[1].x, p[1].y, p[2].x, p[2].y, bitmap); 
+            plotLine(v[0].p.x, v[0].p.y, v[1].p.x, v[1].p.y, bitmap); 
+            plotLine(v[0].p.x, v[0].p.y, v[2].p.x, v[2].p.y, bitmap); 
+            plotLine(v[1].p.x, v[1].p.y, v[2].p.x, v[2].p.y, bitmap); 
             break;
         case TEST:
             //...
@@ -25,8 +25,8 @@ void Triangle::draw(RenderingMode mode, uint8_t* bitmap) {
 }
 
 void Triangle::computeNorm() {
-    Vec3 line1 = p[1] - p[0];
-    Vec3 line2 = p[2] - p[0];
+    Vec3 line1 = v[1].p - v[0].p;
+    Vec3 line2 = v[2].p - v[0].p;
     norm = line1.crossProd(line2);
     //norm.z /= sqrtf(norm.dotProduct(norm));
 }

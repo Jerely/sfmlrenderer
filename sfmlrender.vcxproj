@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\color.cpp" />
     <ClCompile Include="src\line.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mtx44.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="src\timer.cpp" />
     <ClCompile Include="src\triangle.cpp" />
     <ClCompile Include="src\vec3.cpp" />
+    <ClCompile Include="src\vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\color.h" />

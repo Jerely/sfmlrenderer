@@ -88,13 +88,13 @@ void Scene::draw(uint8_t* bitmap) {
     for(auto tri : cube.tris) {
         Triangle srt;
         for(int i = 0; i < 3; ++i) {
-            srt.p[i] = (tri.p[i] * matSRT);
+            srt.v[i].p = (tri.v[i].p * matSRT);
         }
         srt.computeNorm();
-        if(srt.norm.dotProduct(srt.p[0]) < 0) {
+        if(srt.norm.dotProduct(srt.v[0].p) < 0) {
             Triangle proj;
             for(int i = 0; i < 3; ++i) {
-                proj.p[i] = srt.p[i] * matProj;
+                proj.v[i].p = srt.v[i].p * matProj;
 
             }
             proj.draw(mode, bitmap);
@@ -105,18 +105,18 @@ void Scene::draw(uint8_t* bitmap) {
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f) },
-		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
-		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
-		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 0.0f, 1.0f) },
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f) }, //NORTH
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f) },
-		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f) }, //WEST
-		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 0.0f, 0.0f) },
-		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
-		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 0.0f) },
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f) }, //BOTTOM
-		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
+		{ Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA),    Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL) },
+		{ Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL),    Vertex(Vec3(1.0f, 0.0f, 0.0f), RED) },
+		{ Vertex(Vec3(1.0f, 0.0f, 0.0f), RED),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //EAST
+		{ Vertex(Vec3(1.0f, 0.0f, 0.0f), RED),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR) },
+		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU) }, //NORTH
+		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV) },
+		{ Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE) }, //WEST
+		{ Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV),    Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA) },
+		{ Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //TOP
+		{ Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL) },
+		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV),    Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA) }, //BOTTOM
+		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA),    Vertex(Vec3(1.0f, 0.0f, 0.0f), RED) },
     };
 };
 

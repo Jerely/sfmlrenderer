@@ -81,7 +81,7 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
             window.close();
     }
     
-    fillPixels(bitmap, BLACK);
+    fillPixels(bitmap, BLA);
     scene.update();
     scene.draw(bitmap);
     displayBitmap(window, bitmap);
