@@ -84,7 +84,6 @@ void Scene::draw(uint8_t* bitmap) {
     for(auto tri : cube.tris) {
         Triangle srt;
         for(int i = 0; i < 3; ++i) {
-        	MultiplyMatrixVector(tri.p[i], srt.p[i], matSRT);
             srt.p[i] = tri.p[i] * matSRT;
         }
         drawTriangle(srt, bitmap);
