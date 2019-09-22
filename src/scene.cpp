@@ -2,7 +2,7 @@
 
 
 Scene::Scene() :
-thetaX(0), thetaY(0), dx(0), dy(0), dz(0)
+thetaX(0), thetaZ(0), dx(0), dy(0), dz(0)
 {
     initCube();
     populateProj();
@@ -77,30 +77,17 @@ void Scene::populateProj() {
 
 void Scene::draw(uint8_t* bitmap) {
     rotateX(thetaX);
-    //rotateY(thetaY);
-    rotateZ(thetaY);
-    //matRXP = matProj * matRotX;
+    rotateZ(thetaZ);
+    translate(.5f+dx, .5f+dy, 3.0f+dz);
+    scale(0.5f);
+    matSRT = matScale * matRotZ * matRotX * matTranslate * matProj;
     for(auto tri : cube.tris) {
-        Triangle prepared;
-        prepare(tri, prepared);
-        drawTriangle(prepared, bitmap);
+        Triangle srt;
+        for(int i = 0; i < 3; ++i) {
+        	MultiplyMatrixVector(tri.p[i], srt.p[i], matSRT);
+        }
+        drawTriangle(srt, bitmap);
     }
-}
-
-void Scene::prepare(Triangle& inTri, Triangle& outTri) {
-    Vec3 vshift(.5f+dx, .5f+dy, 3.0f+dz);
-    Triangle rotXtri;
-    Triangle translTri;
-    Triangle rotYtri;
-    for(int i = 0; i < 3; ++i) {
-        //outTri.p[i] *= 0.1f;
-        //MultiplyMatrixVector2(outTri.p[i], outTri.p[i], matRotY);
-        MultiplyMatrixVector2(inTri.p[i], rotYtri.p[i], matRotZ);
-        MultiplyMatrixVector2(rotYtri.p[i], rotXtri.p[i], matRotX);
-        translTri.p[i] = (rotXtri.p[i] * 1.0f) + vshift;
-    	MultiplyMatrixVector(translTri.p[i], outTri.p[i], matProj);
-    }
-
 }
 
 void Scene::initCube() {
@@ -121,3 +108,20 @@ void Scene::initCube() {
     };
 };
 
+
+void Scene::translate(float x, float y, float z) {
+    matTranslate.m[0][0] = 1.0f;
+    matTranslate.m[1][1] = 1.0f;
+    matTranslate.m[2][2] = 1.0f;
+    matTranslate.m[3][3] = 1.0f;
+    matTranslate.m[3][0] = x;
+    matTranslate.m[3][1] = y;
+    matTranslate.m[3][2] = z;
+}
+
+void Scene::scale(float q) {
+    matScale.m[0][0] = q;
+    matScale.m[1][1] = q;
+    matScale.m[2][2] = q;
+    matScale.m[3][3] = 1.0f;
+}

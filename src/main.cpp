@@ -48,10 +48,10 @@ int main()
                 scene.thetaX -= 0.1f;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                scene.thetaY -= 0.1f;
+                scene.thetaZ -= 0.1f;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                scene.thetaY += 0.1f;
+                scene.thetaZ += 0.1f;
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
                 scene.dx -= 0.1f;
