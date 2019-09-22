@@ -10,7 +10,10 @@ struct Vec3 {
     Vec3& operator+=(Vec3 const &);
     Vec3& operator*=(float);
     Vec3 operator+(Vec3 const &) const;
+    Vec3 operator-(const Vec3&) const;
     Vec3 operator *(const float) const;
     Vec3 operator *(const Mtx44&) const;
+    Vec3 crossProd(const Vec3&) const;
+    float dotProduct(const Vec3&) const;
 };
 

@@ -26,6 +26,7 @@ struct Scene {
     void translate(float x, float y, float z);
     void scale(float q);
     void update();
+    bool isVisible(const Triangle&) const;
     Scene();
 };
 

@@ -53,3 +53,26 @@ Vec3 Vec3::operator *(const Mtx44& m) const {
     }
     return v;
 }
+
+
+Vec3 Vec3::crossProd(const Vec3& in) const {
+    Vec3 out;
+    out.x = y * in.z - z * in.y;
+    out.y = z * in.x - x * in.z;
+    out.z = x * in.y - y * in.x;
+    return out;
+}
+
+Vec3 Vec3::operator-(const Vec3& in) const {
+    Vec3 out;
+    out.x = x - in.x;
+    out.y = y - in.y;
+    out.z = z - in.z;
+    return out;
+}
+
+
+
+float Vec3::dotProduct(const Vec3& in) const {
+    return x * in.x + y * in.y + z * in.z;
+}

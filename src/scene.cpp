@@ -81,16 +81,23 @@ void Scene::update() {
     rotateZ(thetaZ);
     translate(.5f+dx, .5f+dy, 3.0f+dz);
     scale(1.0f);
-    matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate * matProj;
+    matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate;
 }
 
 void Scene::draw(uint8_t* bitmap) {
     for(auto tri : cube.tris) {
         Triangle srt;
         for(int i = 0; i < 3; ++i) {
-            srt.p[i] = tri.p[i] * matSRT;
+            srt.p[i] = (tri.p[i] * matSRT);
         }
-        drawTriangle(srt, bitmap);
+        if(isVisible(srt)) {
+            Triangle proj;
+            for(int i = 0; i < 3; ++i) {
+                proj.p[i] = srt.p[i] * matProj;
+
+            }
+            drawTriangle(proj, bitmap);
+        }
     }
 }
 
@@ -128,4 +135,12 @@ void Scene::scale(float q) {
     matScale.m[1][1] = q;
     matScale.m[2][2] = q;
     matScale.m[3][3] = 1.0f;
+}
+
+bool Scene::isVisible(const Triangle& tri) const {
+    Vec3 line1 = tri.p[1] - tri.p[0];
+    Vec3 line2 = tri.p[2] - tri.p[0];
+    Vec3 normal = line1.crossProd(line2);
+    
+    return normal.dotProduct(tri.p[0]) < 0;
 }
