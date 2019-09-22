@@ -7,8 +7,8 @@ struct Timer {
     uint32_t frames;
     float frameRate;
     float avgFrameTimeMs;
-    float beginFrame;
-    float endFrame;
+    clock_t beginFrame;
+    clock_t endFrame;
     bool ready;
 
     Timer();
