@@ -5,11 +5,11 @@
 #include "vec3.h"
 #include "scene.h"
 
-const int WIDTH = 200;
-const int HEIGHT = 200;
+const int WIDTH = 640;
+const int HEIGHT = 480;
 const float FOV = 90.0f;
-const int SCALEW = 4;
-const int SCALEH = 4;
+const int SCALEW = 1;
+const int SCALEH = 1;
 
 
 void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap) {

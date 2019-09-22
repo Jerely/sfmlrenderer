@@ -64,7 +64,7 @@ void Scene::rotateZ(float angle) {
 void Scene::project() {
 	float fNear = 0.1f;
 	float fFar = 1000.0f;
-	float fAspectRatio = (float)HEIGHT / (float)WIDTH;
+	float fAspectRatio = (float)WIDTH / (float)HEIGHT;
 	float fFovRad = 1.0f / tanf(FOV * 0.5f / 180.0f * 3.14159f);
 
 	matProj.m[0][0] = fAspectRatio * fFovRad;
