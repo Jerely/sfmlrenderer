@@ -145,6 +145,7 @@
     <ClCompile Include="src\vec3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\color.h" />
     <ClInclude Include="inc\line.h" />
     <ClInclude Include="inc\mtx44.h" />
     <ClInclude Include="inc\scene.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="inc\triangle.h" />
     <ClInclude Include="inc\types.h" />
     <ClInclude Include="inc\vec3.h" />
+    <ClInclude Include="inc\vertex.h" />
     <ClInclude Include="src\vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

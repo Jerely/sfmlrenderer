@@ -62,5 +62,11 @@
     <ClInclude Include="inc\timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

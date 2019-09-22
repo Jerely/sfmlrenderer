@@ -2,7 +2,7 @@
 
 
 Scene::Scene() :
-thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0)
+thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0), mode(WIREFRAME)
 {
     initCube();
     project();
@@ -97,7 +97,7 @@ void Scene::draw(uint8_t* bitmap) {
                 proj.p[i] = srt.p[i] * matProj;
 
             }
-            drawTriangle(proj, bitmap);
+            proj.draw(mode, bitmap);
         }
     }
 }
@@ -105,18 +105,18 @@ void Scene::draw(uint8_t* bitmap) {
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ Vec3(-1.0f, -1.0f, -1.0f),    Vec3(-1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f) },
-		{ Vec3(-1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f),    Vec3(1.0f, -1.0f, -1.0f) },
-		{ Vec3(1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
-		{ Vec3(1.0f, -1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, -1.0f, 1.0f) },
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f) }, //NORTH
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(-1.0f, -1.0f, 1.0f) },
-		{ Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(-1.0f, 1.0f, -1.0f) }, //WEST
-		{ Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, 1.0f, -1.0f),    Vec3(-1.0f, -1.0f, -1.0f) },
-		{ Vec3(-1.0f, 1.0f, -1.0f),    Vec3(-1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
-		{ Vec3(-1.0f, 1.0f, -1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, -1.0f) },
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, -1.0f) }, //BOTTOM
-		{ Vec3(1.0f, -1.0f, 1.0f),    Vec3(-1.0f, -1.0f, -1.0f),    Vec3(1.0f, -1.0f, -1.0f) },
+		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f) },
+		{ Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
+		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //EAST
+		{ Vec3(1.0f, 0.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 0.0f, 1.0f) },
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f) }, //NORTH
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f) },
+		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f) }, //WEST
+		{ Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 0.0f, 0.0f) },
+		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(0.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 1.0f) }, //TOP
+		{ Vec3(0.0f, 1.0f, 0.0f),    Vec3(1.0f, 1.0f, 1.0f),    Vec3(1.0f, 1.0f, 0.0f) },
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f) }, //BOTTOM
+		{ Vec3(1.0f, 0.0f, 1.0f),    Vec3(0.0f, 0.0f, 0.0f),    Vec3(1.0f, 0.0f, 0.0f) },
     };
 };
 

@@ -16,6 +16,7 @@ struct Scene {
     Mtx44 matProj, matScale, matTranslate, matRotY, matRotX, matRotZ, matSRT;
     Mesh cube;
     float thetaX, thetaY, thetaZ, dx, dy, dz;
+    RenderingMode mode;
 
     void draw(uint8_t*);
     void initCube();

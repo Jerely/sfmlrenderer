@@ -35,6 +35,12 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
     sf::Event event;
     while (window.pollEvent(event))
     {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+            scene.mode = WIREFRAME;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+            scene.mode = TEST;
+        }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
             scene.thetaY -= 0.1f;
         } 
