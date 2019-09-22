@@ -37,7 +37,7 @@ void Scene::rotateY(float angle) {
     matRotY.m[0][0] = cosf(angle);
     matRotY.m[0][2] = -sinf(angle);
     matRotY.m[1][1] = 1.0f;
-    matRotY.m[2][1] = sinf(angle);
+    matRotY.m[2][0] = sinf(angle);
     matRotY.m[2][2] = cosf(angle);
     matRotY.m[3][3] = 1.0f;
 }
@@ -77,10 +77,11 @@ void Scene::project() {
 
 void Scene::update() {
     rotateX(thetaX);
+    rotateY(thetaY);
     rotateZ(thetaZ);
     translate(.5f+dx, .5f+dy, 3.0f+dz);
     scale(1.0f);
-    matSRT = matScale * matRotZ * matRotX * matTranslate * matProj;
+    matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate * matProj;
 }
 
 void Scene::draw(uint8_t* bitmap) {

@@ -38,6 +38,12 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+                scene.thetaY -= 0.1f;
+            } 
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
+                scene.thetaY += 0.1f;
+            } 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
                 scene.thetaX += 0.1f;
             }
