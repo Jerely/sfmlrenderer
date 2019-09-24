@@ -65,7 +65,7 @@ void Scene::update() {
     rotateY(thetaY);
     rotateZ(thetaZ);
     translate(.5f+dx, .5f+dy, 3.0f+dz);
-    scale(1.0f);
+    scale(0.5f);
     matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate;
 }
 
@@ -90,20 +90,21 @@ void Scene::draw(uint8_t* bitmap) {
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA),    Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL) },
-		{ Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL),    Vertex(Vec3(1.0f, 0.0f, 0.0f), RED) },
-		{ Vertex(Vec3(1.0f, 0.0f, 0.0f), RED),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //EAST
-		{ Vertex(Vec3(1.0f, 0.0f, 0.0f), RED),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR) },
-		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU) }, //NORTH
-		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV) },
-		{ Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE) }, //WEST
-		{ Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV),    Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA) },
-		{ Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(0.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //TOP
-		{ Vertex(Vec3(0.0f, 1.0f, 0.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 0.0f), YEL) },
-		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(0.0f, 0.0f, 1.0f), NAV),    Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA) }, //BOTTOM
-		{ Vertex(Vec3(1.0f, 0.0f, 1.0f), PUR),    Vertex(Vec3(0.0f, 0.0f, 0.0f), BLA),    Vertex(Vec3(1.0f, 0.0f, 0.0f), RED) },
+		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL) },
+		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL),    Vertex(Vec3(1.0f, -1.0f, -1.0f), RED) },
+		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), RED),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //EAST
+		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), RED),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR) },
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU) }, //NORTH
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV) },
+		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE) }, //WEST
+		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA) },
+		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //TOP
+		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL) },
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA) }, //BOTTOM
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA),    Vertex(Vec3(1.0f, -1.0f, -1.0f), RED) },
     };
 };
+
 
 
 void Scene::translate(float x, float y, float z) {

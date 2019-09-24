@@ -2,6 +2,7 @@
 #include "line.h"
 #include "vec3.h"
 #include <cmath>
+#include <algorithm>
 
 Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2) :
 v{v0, v1, v2} {};
@@ -21,9 +22,10 @@ void Triangle::draw(RenderingMode mode, uint8_t* bitmap) {
         case TEST:
             int iMinX, iMinY, iMaxX, iMaxY;
             intBoundaries(iMinX, iMinY, iMaxX, iMaxY);
-            for(int y = iMinY; y < iMaxY; ++y) {
-                for(int x = iMinX; x < iMaxX; ++x) {
-                    Vec3 p(intToFloat(0, WIDTH-1, .0f, 1.0f, x), intToFloat(0, HEIGHT-1, .0f, 1.0f, y), .0f);
+            for(int y = iMaxY; y >= iMinY; --y) {
+                for(int x = iMinX; x <= iMaxX; ++x) {
+                    Vec3 p(intToFloat(0, WIDTH-1, -1.0f, 1.0f, x),
+                           intToFloat(0, HEIGHT-1, -1.0f, 1.0f, HEIGHT-1-y), .0f);
                     //s,t and 1 - s - t are called the barycentric coordinates of the point p.
                     float s, t;
                     findBarycentricCoord(p, s, t);
@@ -49,6 +51,11 @@ void Triangle::computeNorm() {
 
 
 void Triangle::getBoundaries(float& minX, float& minY, float& maxX, float& maxY) {
+    minX = std::min(v[0].p.x, std::min(v[1].p.x, v[2].p.x));
+    minY = std::min(v[0].p.y, std::min(v[1].p.y, v[2].p.y));
+    maxX = std::max(v[0].p.x, std::max(v[1].p.x, v[2].p.x));
+    maxY = std::max(v[0].p.y, std::max(v[1].p.y, v[2].p.y));
+    /*
     minX = v[0].p.x;
     for(int i = 1; i < 3; ++i) {
         if(v[i].p.x < minX) {
@@ -73,6 +80,7 @@ void Triangle::getBoundaries(float& minX, float& minY, float& maxX, float& maxY)
             maxY = v[i].p.y;
         }
     }
+    */
 }
 
 
@@ -81,16 +89,16 @@ void Triangle::intBoundaries(int& iMinX, int& iMinY, int& iMaxX, int& iMaxY) {
     getBoundaries(minX, minY, maxX, maxY);
     iMinX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, minX);
     iMaxX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, maxX);
-    iMinY = floatToInt(0, HEIGHT-1, -1.0f, 1.0f, minY);
-    iMaxY = floatToInt(0, HEIGHT-1, -1.0f, 1.0f, maxY);
+    iMinY = HEIGHT-1-floatToInt(0, HEIGHT-1, -1.0f, 1.0f, maxY);
+    iMaxY = HEIGHT-1-floatToInt(0, HEIGHT-1, -1.0f, 1.0f, minY);
 }
 
 
 void Triangle::determineColor(float s, float t, Color& color) {
     Vec3 vecColor = v[0].color.toVec3() * s + v[1].color.toVec3() * t + v[2].color.toVec3() * (1-s-t);
-    color.r = (uint8_t) intToFloat(0, 255, .0f, 1.0f, vecColor.x);
-    color.g = (uint8_t) intToFloat(0, 255, .0f, 1.0f, vecColor.y);
-    color.b = (uint8_t) intToFloat(0, 255, .0f, 1.0f, vecColor.z);
+    color.r = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.x);
+    color.g = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.y);
+    color.b = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.z);
 }
 
 bool Triangle::pointIsIn(float s, float t) {

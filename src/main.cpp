@@ -9,18 +9,19 @@
 #include <windows.h>
 #include <iostream>
 
-const int WIDTH = 640;
-const int HEIGHT = 480;
+const int WIDTH = 800;
+const int HEIGHT = 600;
 const float FOV = 90.0f;
 const int SCALEW = 1;
 const int SCALEH = 1;
 
+sf::RenderWindow* pWindow = NULL;
 
-void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap) {
     static sf::Image image;
     static sf::Texture texture;
     static sf::Sprite sprite;
 
+void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap) {
     image.create(WIDTH, HEIGHT, bitmap); 
     texture.loadFromImage(image); 
     sprite.setTexture(texture);
@@ -92,6 +93,7 @@ int main()
 {
     uint8_t* bitmap = new uint8_t[WIDTH*HEIGHT*4];
     sf::RenderWindow window(sf::VideoMode(WIDTH*SCALEW, HEIGHT*SCALEH), "SFML window");
+    pWindow = &window;
     Scene scene;
     Timer timer;
     while (window.isOpen())
