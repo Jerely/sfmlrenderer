@@ -8,22 +8,7 @@ thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0), mode(WIREFRAME)
     project();
 };
 
-void MultiplyMatrixVector2(Vec3 &i, Vec3 &o, Mtx44 &m) {
-	o.x = i.x * m.m[0][0] + i.y * m.m[1][0] + i.z * m.m[2][0] + m.m[3][0];
-	o.y = i.x * m.m[0][1] + i.y * m.m[1][1] + i.z * m.m[2][1] + m.m[3][1];
-	o.z = i.x * m.m[0][2] + i.y * m.m[1][2] + i.z * m.m[2][2] + m.m[3][2];
-}
 
-void MultiplyMatrixVector(Vec3 &i, Vec3 &o, Mtx44 &m) {
-	o.x = i.x * m.m[0][0] + i.y * m.m[1][0] + i.z * m.m[2][0] + m.m[3][0];
-	o.y = i.x * m.m[0][1] + i.y * m.m[1][1] + i.z * m.m[2][1] + m.m[3][1];
-	o.z = i.x * m.m[0][2] + i.y * m.m[1][2] + i.z * m.m[2][2] + m.m[3][2];
-	float w = i.x * m.m[0][3] + i.y * m.m[1][3] + i.z * m.m[2][3] + m.m[3][3];
-
-    if(w == 0.0f)
-        w = 0.001f;
-    o.x /= w; o.y /= w; o.z /= w;
-}
 
 void fillPixels(uint8_t* bitmap, Color color) {
     for(uint32_t y = 0; y < HEIGHT; y++) {
@@ -64,7 +49,7 @@ void Scene::rotateZ(float angle) {
 void Scene::project() {
 	float fNear = 0.1f;
 	float fFar = 1000.0f;
-	float fAspectRatio = (float)WIDTH / (float)HEIGHT;
+	float fAspectRatio = (float)HEIGHT / (float)WIDTH;
 	float fFovRad = 1.0f / tanf(FOV * 0.5f / 180.0f * 3.14159f);
 
 	matProj.m[0][0] = fAspectRatio * fFovRad;
@@ -86,13 +71,13 @@ void Scene::update() {
 
 void Scene::draw(uint8_t* bitmap) {
     for(auto tri : cube.tris) {
-        Triangle srt;
+        Triangle srt = tri;
         for(int i = 0; i < 3; ++i) {
             srt.v[i].p = (tri.v[i].p * matSRT);
         }
         srt.computeNorm();
         if(srt.norm.dotProduct(srt.v[0].p) < 0) {
-            Triangle proj;
+            Triangle proj = srt;
             for(int i = 0; i < 3; ++i) {
                 proj.v[i].p = srt.v[i].p * matProj;
 
