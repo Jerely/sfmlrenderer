@@ -7,8 +7,6 @@
 Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2) :
 v{v0, v1, v2} {};
 
-
-
 Triangle::Triangle() {};
 
 
@@ -19,7 +17,7 @@ void Triangle::draw(RenderingMode mode, uint8_t* bitmap) {
             plotLine(v[0].p.x, v[0].p.y, v[2].p.x, v[2].p.y, bitmap); 
             plotLine(v[1].p.x, v[1].p.y, v[2].p.x, v[2].p.y, bitmap); 
             break;
-        case TEST:
+        case COLORED:
             int iMinX, iMinY, iMaxX, iMaxY;
             intBoundaries(iMinX, iMinY, iMaxX, iMaxY);
             for(int y = iMaxY; y >= iMinY; --y) {
@@ -36,7 +34,7 @@ void Triangle::draw(RenderingMode mode, uint8_t* bitmap) {
                     }
                 }
             }
-
+            //displayBitmap(*pWindow, bitmap);
             break;
     }
 }
@@ -99,6 +97,7 @@ void Triangle::determineColor(float s, float t, Color& color) {
     color.r = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.x);
     color.g = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.y);
     color.b = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.z);
+    color.a = 255;
 }
 
 bool Triangle::pointIsIn(float s, float t) {

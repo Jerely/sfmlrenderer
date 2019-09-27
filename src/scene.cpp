@@ -2,7 +2,7 @@
 
 
 Scene::Scene() :
-thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0), mode(WIREFRAME)
+thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0), mode(COLORED)
 {
     initCube();
     project();
@@ -90,19 +90,28 @@ void Scene::draw(uint8_t* bitmap) {
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL) },
-		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL),    Vertex(Vec3(1.0f, -1.0f, -1.0f), RED) },
-		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), RED),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //EAST
-		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), RED),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR) },
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU) }, //NORTH
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV) },
-		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE) }, //WEST
-		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA) },
-		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), BLU),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //TOP
-		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), GRE),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), YEL) },
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), NAV),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA) }, //BOTTOM
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), PUR),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), BLA),    Vertex(Vec3(1.0f, -1.0f, -1.0f), RED) },
+		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI) },
+		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI) },
+		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //EAST
+		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI) },
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI) }, //NORTH
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI) },
+		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI) }, //WEST
+		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI) },
+		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //TOP
+		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI) },
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI) }, //BOTTOM
+		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI) },
     };
+
+    for(int k = 0; k < 12; ++k) {
+        for(int i = 0; i < 3; ++i) {
+            cube.tris[k].v[i].color.r = floatToInt(0, 255, -1.0f, 1.0f, cube.tris[k].v[i].p.x);
+            cube.tris[k].v[i].color.g = floatToInt(0, 255, -1.0f, 1.0f, cube.tris[k].v[i].p.y);
+            cube.tris[k].v[i].color.b = floatToInt(0, 255, -1.0f, 1.0f, cube.tris[k].v[i].p.z);
+            cube.tris[k].v[i].color.a = 255;
+        }
+    }
 };
 
 

@@ -1,8 +1,10 @@
 #pragma once
 #include "vertex.h"
+#include <SFML/Graphics.hpp>
+extern sf::RenderWindow* pWindow;
 
 enum RenderingMode {
-    WIREFRAME, TEST
+    WIREFRAME, COLORED
 };
 
 struct Triangle {

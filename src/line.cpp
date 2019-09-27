@@ -1,5 +1,6 @@
 #include "line.h"
 #define abs(x) ((x) > 0 ? (x) : -(x))
+const Color WIRE_COLOR = WHI;
 
 void plotLineLow(int x0, int y0, int x1, int y1, uint8_t* bitmap) {
     int dx = x1 - x0;
@@ -12,7 +13,7 @@ void plotLineLow(int x0, int y0, int x1, int y1, uint8_t* bitmap) {
     int D = 2*dy - dx;
     int y = y0;
     for(int x = x0; x <= x1; ++x) {
-        setPixel(bitmap, x, y, WHI);
+        setPixel(bitmap, x, y, WIRE_COLOR);
         if(D > 0) {
             y = y + yi;
             D = D - 2*dx;
@@ -32,7 +33,7 @@ void plotLineHigh(int x0, int y0, int x1, int y1, uint8_t* bitmap) {
     int D = 2*dx - dy;
     int x = x0;
     for(int y = y0; y <= y1; ++y) {
-        setPixel(bitmap, x, y, WHI);
+        setPixel(bitmap, x, y, WIRE_COLOR);
         if(D > 0) {
             x += xi;
             D -= 2*dy;

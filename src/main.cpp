@@ -40,7 +40,7 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
             scene.mode = WIREFRAME;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-            scene.mode = TEST;
+            scene.mode = COLORED;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
             scene.thetaY -= 0.1f;
