@@ -64,8 +64,8 @@ void Scene::update() {
     rotateX(thetaX);
     rotateY(thetaY);
     rotateZ(thetaZ);
-    translate(.5f+dx, .5f+dy, 3.0f+dz);
-    scale(0.5f);
+    translate(dx, dy, 3.0f+dz);
+    scale(1.0f);
     matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate;
 }
 
@@ -131,5 +131,10 @@ void Scene::scale(float q) {
     matScale.m[1][1] = q;
     matScale.m[2][2] = q;
     matScale.m[3][3] = 1.0f;
+}
+
+void Scene::pointAt(Vec4& pos, Vec4& target, Vec4&  up) {
+    Vec4 newForward = (target - pos).normalize;
+    //timecode 23:25
 }
 
