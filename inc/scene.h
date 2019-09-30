@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "vec3.h"
+#include "vec4.h"
 #include "line.h"
 #include "triangle.h"
 #include "mtx44.h"
@@ -31,4 +31,3 @@ struct Scene {
 };
 
 void fillPixels(uint8_t* bitmap, Color color);
-void MultiplyMatrixVector(Vec3 &i, Vec3 &o, Mtx44 &m);

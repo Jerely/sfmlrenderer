@@ -18,6 +18,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\color.h" />
+    <ClInclude Include="inc\line.h" />
+    <ClInclude Include="inc\mtx44.h" />
+    <ClInclude Include="inc\scene.h" />
+    <ClInclude Include="inc\timer.h" />
+    <ClInclude Include="inc\triangle.h" />
+    <ClInclude Include="inc\types.h" />
+    <ClInclude Include="inc\vec4.h" />
+    <ClInclude Include="inc\vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\color.cpp" />
+    <ClCompile Include="src\line.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mtx44.cpp" />
+    <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\triangle.cpp" />
+    <ClCompile Include="src\vec4.cpp" />
+    <ClCompile Include="src\vertex.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{B9FD1BCF-D319-420F-A04B-90485B23BC3D}</ProjectGuid>
@@ -135,29 +157,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\color.cpp" />
-    <ClCompile Include="src\line.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\mtx44.cpp" />
-    <ClCompile Include="src\scene.cpp" />
-    <ClCompile Include="src\timer.cpp" />
-    <ClCompile Include="src\triangle.cpp" />
-    <ClCompile Include="src\vec3.cpp" />
-    <ClCompile Include="src\vertex.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="inc\color.h" />
-    <ClInclude Include="inc\line.h" />
-    <ClInclude Include="inc\mtx44.h" />
-    <ClInclude Include="inc\scene.h" />
-    <ClInclude Include="inc\timer.h" />
-    <ClInclude Include="inc\triangle.h" />
-    <ClInclude Include="inc\types.h" />
-    <ClInclude Include="inc\vec3.h" />
-    <ClInclude Include="inc\vertex.h" />
-    <ClInclude Include="src\vec3.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

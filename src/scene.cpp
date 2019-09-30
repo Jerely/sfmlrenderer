@@ -80,7 +80,7 @@ void Scene::draw(uint8_t* bitmap) {
             Triangle proj = srt;
             for(int i = 0; i < 3; ++i) {
                 proj.v[i].p = srt.v[i].p * matProj;
-
+                proj.v[i].p.perspDiv();
             }
             proj.draw(mode, bitmap);
         }
@@ -90,18 +90,18 @@ void Scene::draw(uint8_t* bitmap) {
 void Scene::initCube() {
     cube.tris = {
         // SOUTH
-		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI) },
-		{ Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI) },
-		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //EAST
-		{ Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI) },
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI) }, //NORTH
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI) },
-		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI) }, //WEST
-		{ Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI) },
-		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(-1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI) }, //TOP
-		{ Vertex(Vec3(-1.0f, 1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec3(1.0f, 1.0f, -1.0f), WHI) },
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI) }, //BOTTOM
-		{ Vertex(Vec3(1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec3(-1.0f, -1.0f, -1.0f), WHI),    Vertex(Vec3(1.0f, -1.0f, -1.0f), WHI) },
+        { Vertex(Vec4(-1.0f, -1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, 1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, -1.0f, 1.0f), WHI) },
+        { Vertex(Vec4(-1.0f, -1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, -1.0f, -1.0f, 1.0f), WHI) },
+        { Vertex(Vec4(1.0f, -1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, 1.0f, 1.0f), WHI) }, //EAST
+        { Vertex(Vec4(1.0f, -1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, -1.0f, 1.0f, 1.0f), WHI) },
+        { Vertex(Vec4(1.0f, -1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, 1.0f, 1.0f, 1.0f), WHI) }, //NORTH
+        { Vertex(Vec4(1.0f, -1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, 1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, -1.0f, 1.0f, 1.0f), WHI) },
+        { Vertex(Vec4(-1.0f, -1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, 1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, 1.0f, -1.0f, 1.0f), WHI) }, //WEST
+        { Vertex(Vec4(-1.0f, -1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, 1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, -1.0f, -1.0f, 1.0f), WHI) },
+        { Vertex(Vec4(-1.0f, 1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, 1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, 1.0f, 1.0f), WHI) }, //TOP
+        { Vertex(Vec4(-1.0f, 1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, 1.0f, -1.0f, 1.0f), WHI) },
+        { Vertex(Vec4(1.0f, -1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, -1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, -1.0f, -1.0f, 1.0f), WHI) }, //BOTTOM
+		{ Vertex(Vec4(1.0f, -1.0f, 1.0f, 1.0f), WHI),    Vertex(Vec4(-1.0f, -1.0f, -1.0f, 1.0f), WHI),    Vertex(Vec4(1.0f, -1.0f, -1.0f, 1.0f), WHI) },
     };
 
     for(int k = 0; k < 12; ++k) {

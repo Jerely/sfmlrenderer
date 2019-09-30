@@ -1,10 +1,10 @@
 #pragma once
-#include "vec3.h"
+#include "vec4.h"
 #include "color.h"
 
 struct Vertex {
-    Vec3 p;
+    Vec4 p;
     Color color;
-    Vertex(const Vec3& p, Color color);
+    Vertex(const Vec4& p, Color color);
     Vertex();
 };

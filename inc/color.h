@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "vec3.h"
+#include "vec4.h"
 
 struct Color {
     uint8_t r;
@@ -10,7 +10,7 @@ struct Color {
     Color(uint8_t, uint8_t, uint8_t, uint8_t);
     Color();
     inline uint32_t toU32() { return (a << 24) | (b << 16) | (g << 8) | r; }
-    Vec3 toVec3();
+    Vec4 toVec3();
 };
 
 const Color WHI = {255, 255, 255, 255};
