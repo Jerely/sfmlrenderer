@@ -1,7 +1,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "line.h"
-#include "types.h"-
+#include "types.h"
 #include "vec4.h"
 #include "scene.h"
 #include "timer.h"
