@@ -9,7 +9,7 @@
 #include <windows.h>
 #include <iostream>
 
-const int WIDTH = 600;
+const int WIDTH = 800;
 const int HEIGHT = 600;
 const float FOV = 90.0f;
 const int SCALEW = 1;
