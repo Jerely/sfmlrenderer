@@ -10,6 +10,7 @@ struct Vec4 {
     Vec4(float, float);
     Vec4();
     Vec4& operator+=(Vec4 const &);
+    Vec4& operator-=(Vec4 const &);
     Vec4& operator*=(float);
     Vec4 operator+(Vec4 const &) const;
     Vec4 operator-(const Vec4&) const;

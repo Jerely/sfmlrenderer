@@ -5,3 +5,5 @@ struct Mtx44 {
     Mtx44 operator *(const Mtx44&);
     Mtx44();
 };
+
+Mtx44 MatrixQuickInverse(Mtx44 &m);

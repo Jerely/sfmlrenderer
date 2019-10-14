@@ -9,7 +9,7 @@
 #include <windows.h>
 #include <iostream>
 
-const int WIDTH = 800;
+const int WIDTH = 600;
 const int HEIGHT = 600;
 const float FOV = 90.0f;
 const int SCALEW = 1;
@@ -42,11 +42,27 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
             scene.mode = COLORED;
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
-            scene.thetaY -= 0.1f;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+            scene.control = OBJECT;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+            scene.control = CAMERA;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            if(scene.control == OBJECT) {
+                scene.thetaY -= 0.1f;
+            }
+            else {
+                scene.camAngleY += 0.1f;
+            }
         } 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
-            scene.thetaY += 0.1f;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            if(scene.control == OBJECT) {
+                scene.thetaY += 0.1f;
+            }
+            else {
+                scene.camAngleY -= 0.1f;
+            }
         } 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
             scene.thetaX += 0.1f;
@@ -54,29 +70,59 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
             scene.thetaX -= 0.1f;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
             scene.thetaZ -= 0.1f;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
             scene.thetaZ += 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            scene.dx -= 0.1f;
+            if(scene.control == OBJECT) {
+                scene.dx -= 0.1f;
+            }
+            else {
+                scene.camera.x -= 0.1f;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            scene.dx += 0.1f;
+            if(scene.control == OBJECT) {
+                scene.dx += 0.1f;
+            }
+            else {
+                scene.camera.x += 0.1f;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-            scene.dy += 0.1f;
+            if(scene.control == OBJECT) {
+                scene.dy -= 0.1f;
+            }
+            else {
+                scene.camera.y -= 0.1f;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-            scene.dy -= 0.1f;
+            if(scene.control == OBJECT) {
+                scene.dy += 0.1f;
+            }
+            else {
+                scene.camera.y += 0.1f;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            scene.dz += 0.1f;
+            if(scene.control == OBJECT) {
+                scene.dz += 0.1f;
+            }
+            else {
+                scene.camera += scene.lookDir;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            scene.dz -= 0.1f;
+            if(scene.control == OBJECT) {
+                scene.dz -= 0.1f;
+            }
+            else {
+                scene.camera -= scene.lookDir;
+            }
         }
         if (event.type == sf::Event::Closed)
             window.close();

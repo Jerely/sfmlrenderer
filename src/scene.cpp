@@ -1,14 +1,11 @@
 #include "scene.h"
 
-
 Scene::Scene() :
-thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0), mode(COLORED)
+    thetaX(0), thetaY(0), thetaZ(0), dx(0), dy(0), dz(0), camAngleY(0), mode(COLORED), control(OBJECT)
 {
     initCube();
     project();
 };
-
-
 
 void fillPixels(uint8_t* bitmap, Color color) {
     for(uint32_t y = 0; y < HEIGHT; y++) {
@@ -18,13 +15,15 @@ void fillPixels(uint8_t* bitmap, Color color) {
     }
 }
 
-void Scene::rotateY(float angle) {
-    matRotY.m[0][0] = cosf(angle);
-    matRotY.m[0][2] = -sinf(angle);
-    matRotY.m[1][1] = 1.0f;
-    matRotY.m[2][0] = sinf(angle);
-    matRotY.m[2][2] = cosf(angle);
-    matRotY.m[3][3] = 1.0f;
+Mtx44 Scene::rotateY(float angle) {
+    Mtx44 out;
+    out.m[0][0] = cosf(angle);
+    out.m[0][2] = -sinf(angle);
+    out.m[1][1] = 1.0f;
+    out.m[2][0] = sinf(angle);
+    out.m[2][2] = cosf(angle);
+    out.m[3][3] = 1.0f;
+    return out;
 }
 
 void Scene::rotateX(float angle) {
@@ -45,7 +44,6 @@ void Scene::rotateZ(float angle) {
     matRotZ.m[3][3] = 1.0f;
 }
 
-
 void Scene::project() {
 	float fNear = 0.1f;
 	float fFar = 1000.0f;
@@ -62,11 +60,14 @@ void Scene::project() {
 
 void Scene::update() {
     rotateX(thetaX);
-    rotateY(thetaY);
+    matRotY = rotateY(thetaY);
     rotateZ(thetaZ);
     translate(dx, dy, 3.0f+dz);
     scale(1.0f);
-    matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate;
+    prepareCamera();
+    prepareView();
+    matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate * matView;
+    //matSRT = matView;
 }
 
 void Scene::draw(uint8_t* bitmap) {
@@ -114,8 +115,6 @@ void Scene::initCube() {
     }
 };
 
-
-
 void Scene::translate(float x, float y, float z) {
     matTranslate.m[0][0] = 1.0f;
     matTranslate.m[1][1] = 1.0f;
@@ -134,7 +133,35 @@ void Scene::scale(float q) {
 }
 
 void Scene::pointAt(Vec4& pos, Vec4& target, Vec4&  up) {
-    Vec4 newForward = (target - pos).normalize;
-    //timecode 23:25
+  // Calc new forward direction
+    Vec4 newForward = (target - pos);
+    newForward.normalize();
+
+    Vec4 a = newForward * up.dotProduct(newForward);
+    Vec4 newUp = (up - a);
+    newUp.normalize();
+    Vec4 newRight = newUp.xyzCrossProduct(newForward);
+
+	matCamera.m[0][0] = newRight.x;	    matCamera.m[0][1] = newRight.y;	    matCamera.m[0][2] = newRight.z;	    matCamera.m[0][3] = 0.0f;
+	matCamera.m[1][0] = newUp.x;		matCamera.m[1][1] = newUp.y;		matCamera.m[1][2] = newUp.z;		matCamera.m[1][3] = 0.0f;
+	matCamera.m[2][0] = newForward.x;	matCamera.m[2][1] = newForward.y;	matCamera.m[2][2] = newForward.z;	matCamera.m[2][3] = 0.0f;
+	matCamera.m[3][0] = pos.x;			matCamera.m[3][1] = pos.y;			matCamera.m[3][2] = pos.z;			matCamera.m[3][3] = 1.0f;
 }
 
+void Scene::prepareCamera() {
+    /*
+    lookDir = Vec4(.0f, .0f, 1.0f);
+    Vec4 up = Vec4(.0f, 1.0f, .0f);
+    Vec4 target = camera - lookDir;
+    */
+  
+    Vec4 up = Vec4(.0f, 1.0f, .0f);
+    Vec4 target = Vec4(.0f, .0f, 1.0f);
+    lookDir = target * rotateY(camAngleY);
+    target = camera + lookDir;
+    pointAt(camera, target, up);
+}
+
+void Scene::prepareView() {
+  matView = MatrixQuickInverse(matCamera);
+}
