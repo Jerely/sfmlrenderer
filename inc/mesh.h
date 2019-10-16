@@ -13,9 +13,10 @@ struct Mesh {
     float thetaX,
           thetaY,
           thetaZ,
-          dx,
-          dy,
-          dz; 
+            scale,
+          x,
+          y,
+          z; 
 
     void getMatSRT();
     void update();

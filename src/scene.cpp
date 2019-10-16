@@ -8,8 +8,10 @@ Scene::Scene() :
     matProj = Mtx44::project((float)WIDTH/(float)HEIGHT, 1.0f, 1000.0f, 45.0f);
 };
 
-void Scene::update() {
-    meshes[curMesh].update();
+void Scene::update()
+{
+    for(int i = 0; i < 2; ++i)
+        meshes[i].update();
 }
 
 Mesh& Scene::getCurMesh()
@@ -17,11 +19,14 @@ Mesh& Scene::getCurMesh()
     return meshes[curMesh];
 }
 
-void Scene::draw(uint8_t* bitmap) {
-    drawMesh(meshes[curMesh], bitmap);
+void Scene::draw(uint8_t* bitmap)
+{
+    for(int i = 0; i < 2; ++i)
+        drawMesh(meshes[i], bitmap);
 }
 
-void Scene::drawMesh(const Mesh& mesh, uint8_t* bitmap) {
+void Scene::drawMesh(const Mesh& mesh, uint8_t* bitmap)
+{
     for(auto tri : mesh.tris) {
         Triangle srt = tri;
         for(int i = 0; i < 3; ++i) {

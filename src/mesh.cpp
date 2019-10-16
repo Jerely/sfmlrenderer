@@ -9,6 +9,13 @@ Mesh initSquare()
          { Vertex(Vec4(-1.0f, 1.0f, 1.0f), RED), Vertex(Vec4(1.0f, 1.0f, 1.0f), GRE), Vertex(Vec4(-1.0f, -1.0f, 1.0f), WHI) },
          { Vertex(Vec4(-1.0f, -1.0f, 1.0f), WHI), Vertex(Vec4(1.0f, 1.0f, 1.0f), GRE), Vertex(Vec4(1.0f, -1.0f, 1.0f), BLU) }
         };
+    out.scale = 0.1f;
+    out.thetaX = 0;
+    out.thetaY = 0;
+    out.thetaZ = 0;
+    out.x = -2.0f;
+    out.y = 2.0f;
+    out.z = 6.0f;
     return out;
 }
 
@@ -40,15 +47,22 @@ Mesh initCube()
             out.tris[k].v[i].color.a = 255;
         }
     }
+    out.scale = 1.0f;
+    out.thetaX = 0;
+    out.thetaY = 0;
+    out.thetaZ = 0;
+    out.x = 0;
+    out.y = 0;
+    out.z = 6.0f;
     return out;
 }
 
 void Mesh::update()
 {
-    matScale = Mtx44::scale(1.0f);
+    matScale = Mtx44::scale(scale);
     matRotX = Mtx44::rotateX(thetaX);
     matRotY = Mtx44::rotateY(thetaY);
     matRotZ = Mtx44::rotateZ(thetaZ);
-    matTranslate = Mtx44::translate(dx, dy, 3.0f+dz);
+    matTranslate = Mtx44::translate(x, y, z);
     matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate;
 }
