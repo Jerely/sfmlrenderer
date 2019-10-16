@@ -21,9 +21,6 @@ struct Triangle {
     void findBarycentricCoord(const Vec4& p, float& s, float& t);
 };
 
-struct Mesh {
-    vector<Triangle> tris;
-};
 
 
 

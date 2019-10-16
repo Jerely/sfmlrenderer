@@ -3,6 +3,7 @@
 #include "vec4.h"
 #include "line.h"
 #include "triangle.h"
+#include "mesh.h"
 #include "mtx44.h"
 #include "camera.h"
 #include <SFML/Graphics.hpp>
@@ -36,11 +37,6 @@ struct Scene {
     void initSquare(); //for debug
     void initCube();
     void project();
-    Mtx44 rotateX(float angle);
-    Mtx44 rotateY(float angle);
-    Mtx44 rotateZ(float angle);
-    void translate(float x, float y, float z);
-    void scale(float q);
     void update();
     Scene();
 };

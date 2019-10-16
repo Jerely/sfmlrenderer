@@ -11,7 +11,7 @@ Scene::Scene() :
 {
     initCube();
     initSquare();
-    matProj.project((float)WIDTH/(float)HEIGHT, 1.0f, 1000.0f, 30.0f);
+    matProj.project((float)WIDTH/(float)HEIGHT, 1.0f, 1000.0f, 45.0f);
 };
 
 void fillPixels(uint8_t* bitmap, Color color) {
@@ -29,7 +29,7 @@ void Scene::update() {
     matTranslate.translate(dx, dy, 3.0f+dz);
     matScale.scale(1.0f);
     matSRT = matScale * matRotX * matRotY * matRotZ * matTranslate;
-    //matSRT = matScale * matTranslate;
+    //matSRT = matScale;
 }
 
 void Scene::draw(uint8_t* bitmap) {
@@ -90,12 +90,6 @@ void Scene::initCube() {
     }
 };
 
-void Scene::scale(float q) {
-    matScale.m[0][0] = q;
-    matScale.m[1][1] = q;
-    matScale.m[2][2] = q;
-    matScale.m[3][3] = 1.0f;
-}
 
 void Scene::projectManually(const Vec4& in, Vec4& out) //for debug
 {
@@ -104,4 +98,4 @@ void Scene::projectManually(const Vec4& in, Vec4& out) //for debug
     out.x = in.x * fAspectRatio * fFovRad / in.z;
     out.y = in.y * fFovRad / in.z;
 }
-    
+

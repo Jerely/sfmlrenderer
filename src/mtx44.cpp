@@ -63,14 +63,14 @@ void Mtx44::project(float ar,
                      float far,
                      float fov)
 {
-    float range = near - far;
+    float range = far - near;
     float tanHalfFov = tanf(fov * .5f / 180.0f * 3.14159f);
 
     m[0][0] = 1.0f / (tanHalfFov * ar);
     m[1][1] = 1.0f / tanHalfFov;
-    m[2][2] = (-near - far) / range;
-    m[2][3] = 2.0f * far * near / range;
-    m[3][2] = 1.0f;
+    m[2][2] = far / range;
+    m[2][3] = 1.0f;
+    m[3][2] = - far * near / range;
 }
 
 void Mtx44::translate(float x, float y, float z)
