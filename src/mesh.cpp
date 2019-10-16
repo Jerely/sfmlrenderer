@@ -48,8 +48,8 @@ Mesh initCube()
         }
     }
     out.scale = 1.0f;
-    out.thetaX = 0;
-    out.thetaY = 0;
+    out.thetaX = -0.7f;
+    out.thetaY = 0.7f;
     out.thetaZ = 0;
     out.x = 0;
     out.y = 0;

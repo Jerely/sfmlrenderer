@@ -1,11 +1,14 @@
 #include "scene.h"
 
+const uint32_t NEAR = 1.0f;
+const uint32_t FAR = 1000.0f;
+
 Scene::Scene() :
     meshes{initCube(), initSquare()},
     curMesh(0),
     mode(COLORED) 
 {
-    matProj = Mtx44::project((float)WIDTH/(float)HEIGHT, 1.0f, 1000.0f, 45.0f);
+    matProj = Mtx44::project((float)WIDTH/(float)HEIGHT, NEAR, FAR, 45.0f);
 };
 
 void Scene::update()
@@ -38,9 +41,10 @@ void Scene::drawMesh(const Mesh& mesh, uint8_t* bitmap)
             for(int i = 0; i < 3; ++i) {
                 proj.v[i].p = srt.v[i].p * matProj;
                 proj.v[i].p.perspDiv();
+                proj.v[i].p.w = 1 / proj.v[i].p.w;
                 //projectManually(srt.v[i].p, proj.v[i].p);
             }
-            proj.draw(mode, bitmap);
+                proj.draw(mode, bitmap);
         }
     }
 }

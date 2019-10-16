@@ -34,7 +34,6 @@ void Triangle::draw(RenderingMode mode, uint8_t* bitmap) {
                     }
                 }
             }
-            //displayBitmap(*pWindow, bitmap);
             break;
     }
 }
@@ -53,32 +52,6 @@ void Triangle::getBoundaries(float& minX, float& minY, float& maxX, float& maxY)
     minY = std::min(v[0].p.y, std::min(v[1].p.y, v[2].p.y));
     maxX = std::max(v[0].p.x, std::max(v[1].p.x, v[2].p.x));
     maxY = std::max(v[0].p.y, std::max(v[1].p.y, v[2].p.y));
-    /*
-    minX = v[0].p.x;
-    for(int i = 1; i < 3; ++i) {
-        if(v[i].p.x < minX) {
-            minX = v[i].p.x;
-        }
-    }
-    minY = v[0].p.y;
-    for(int i = 1; i < 3; ++i) {
-        if(v[i].p.y < minY) {
-            minY = v[i].p.y;
-        }
-    }
-    maxX = v[0].p.x;
-    for(int i = 1; i < 3; ++i) {
-        if(v[i].p.x > maxX) {
-            maxX = v[i].p.x;
-        }
-    }
-    maxY = v[0].p.y;
-    for(int i = 1; i < 3; ++i) {
-        if(v[i].p.y > maxY) {
-            maxY = v[i].p.y;
-        }
-    }
-    */
 }
 
 
@@ -93,7 +66,29 @@ void Triangle::intBoundaries(int& iMinX, int& iMinY, int& iMaxX, int& iMaxY) {
 
 
 void Triangle::determineColor(float s, float t, Color& color) {
-    Vec4 vecColor = v[0].color.toVec3() * s + v[1].color.toVec3() * t + v[2].color.toVec3() * (1-s-t);
+    //получаем третью координату
+    float u = 1 - s - t;
+
+    //преобразуем цвета из формата int8*3 в формат float*3
+    Vec4 c0 = v[0].color.toVec3();
+    Vec4 c1 = v[1].color.toVec3();
+    Vec4 c2 = v[2].color.toVec3();
+    
+    //делим цвета на координату z
+    c0 *= v[0].p.w;
+    c1 *= v[1].p.w;
+    c2 *= v[2].p.w;
+
+    //интерполируем цвета
+    Vec4 vecColor = c0 * s + c1 * t + c2 * u;
+
+    //Для корректной с точки зрения перспективы интерполяци мы умножаем
+    //результат на z, глубину точки на трехмерном треугольнике, который
+    //пиксель перекрывает.
+    float z = 1 / (s * v[0].p.w + t * v[1].p.w + u * v[2].p.w);
+    vecColor *= z;
+
+    //Преобразуем обратно в формат int8*3
     color.r = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.x);
     color.g = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.y);
     color.b = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.z);
@@ -107,12 +102,6 @@ bool Triangle::pointIsIn(float s, float t) {
 }
 
 void Triangle::findBarycentricCoord(const Vec4& p, float& s, float& t) {
-    /*
-    s = ((yv2-yv3)*(px-xv3)+(xv3-xv2)*(py-yv3)) /
-        ((yv2-yv3)*(xv1-xv3)+(xv3-xv2)*(yv1-yv3));
-    t = ((yv3-yv1)*(px-xv3)+(xv1-xv3)*(py-yv3)) /
-        ((yv2-yv3)*(xv1-xv3)+(xv3-xv2)*(yv1-yv3));
-        */
     s = ((v[1].p.y-v[2].p.y)*(p.x-v[2].p.x)+(v[2].p.x-v[1].p.x)*(p.y-v[2].p.y)) / ((v[1].p.y-v[2].p.y)*(v[0].p.x-v[2].p.x)+(v[2].p.x-v[1].p.x)*(v[0].p.y-v[2].p.y));
     t = ((v[2].p.y-v[0].p.y)*(p.x-v[2].p.x)+(v[0].p.x-v[2].p.x)*(p.y-v[2].p.y)) / ((v[1].p.y-v[2].p.y)*(v[0].p.x-v[2].p.x)+(v[2].p.x-v[1].p.x)*(v[0].p.y-v[2].p.y));
 }
