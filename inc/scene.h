@@ -36,9 +36,9 @@ struct Scene {
     void initSquare(); //for debug
     void initCube();
     void project();
-    void rotateX(float angle);
+    Mtx44 rotateX(float angle);
     Mtx44 rotateY(float angle);
-    void rotateZ(float angle);
+    Mtx44 rotateZ(float angle);
     void translate(float x, float y, float z);
     void scale(float q);
     void update();
