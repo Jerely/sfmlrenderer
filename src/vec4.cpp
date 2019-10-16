@@ -110,8 +110,8 @@ void Vec4::perspDiv() {
 }
 
 void Vec4::normalize() {
-    //float len = sqrtf(x*x + y*y + z*z + w*w);
-    float len = sqrtf(x*x + y*y + z*z);
+    float len = sqrtf(x*x + y*y + z*z + w*w);
+    //float len = sqrtf(x*x + y*y + z*z);
     x /= len;
     y /= len;
     z /= len;

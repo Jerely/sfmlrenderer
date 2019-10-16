@@ -4,6 +4,7 @@
 #include "line.h"
 #include "triangle.h"
 #include "mtx44.h"
+#include "camera.h"
 #include <SFML/Graphics.hpp>
 
 extern const int WIDTH;
@@ -11,11 +12,6 @@ extern const int HEIGHT;
 extern const float FOV;
 extern const int SCALEW;
 extern const int SCALEH;
-
-enum ControlMode {
-                  CAMERA,
-                  OBJECT
-};
 
 struct Scene {
     Mtx44 matProj,
@@ -25,18 +21,19 @@ struct Scene {
           matRotX,
           matRotZ,
           matCamera,
-          matView,
           matSRT;
 
-    Vec4 camera, lookDir;
-
-    Mesh cube;
-    float thetaX, thetaY, thetaZ, dx, dy, dz, camAngleY;
+    Mesh cube,
+        square; //for testing
+    float thetaX, thetaY, thetaZ, dx, dy, dz; 
     RenderingMode mode;
 
-    ControlMode control;
+    Camera camera;
 
     void draw(uint8_t*);
+    void drawMesh(const Mesh& mesh, uint8_t* bitmap);
+    void projectManually(const Vec4&, Vec4&); //for debug
+    void initSquare(); //for debug
     void initCube();
     void project();
     void rotateX(float angle);
@@ -44,10 +41,7 @@ struct Scene {
     void rotateZ(float angle);
     void translate(float x, float y, float z);
     void scale(float q);
-    void prepareCamera();
-    void prepareView();
     void update();
-    void pointAt(Vec4& pos, Vec4& target, Vec4&  up);
     Scene();
 };
 
