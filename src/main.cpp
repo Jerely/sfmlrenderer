@@ -31,6 +31,14 @@ void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap) {
     window.display();
 }
 
+void fillPixels(uint8_t* bitmap, Color color) {
+    for(uint32_t y = 0; y < HEIGHT; y++) {
+        for(uint32_t x = 0; x < WIDTH; x++) {
+            setPixel(bitmap, x, y, color);
+        }
+    }
+}
+
 void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
     sf::Event event;
     while (window.pollEvent(event))
@@ -42,40 +50,40 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
             scene.mode = COLORED;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            scene.thetaY -= 0.1f;
+            scene.getCurMesh().thetaY -= 0.1f;
         } 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            scene.thetaY += 0.1f;
+            scene.getCurMesh().thetaY += 0.1f;
         } 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            scene.thetaX += 0.1f;
+            scene.getCurMesh().thetaX += 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            scene.thetaX -= 0.1f;
+            scene.getCurMesh().thetaX -= 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
-            scene.thetaZ -= 0.1f;
+            scene.getCurMesh().thetaZ -= 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
-            scene.thetaZ += 0.1f;
+            scene.getCurMesh().thetaZ += 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            scene.dx -= 0.1f;
+            scene.getCurMesh().dx -= 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            scene.dx += 0.1f;
+            scene.getCurMesh().dx += 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-            scene.dy -= 0.1f;
+            scene.getCurMesh().dy -= 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-            scene.dy += 0.1f;
+            scene.getCurMesh().dy += 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            scene.dz += 0.1f;
+            scene.getCurMesh().dz += 0.1f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            scene.dz -= 0.1f;
+            scene.getCurMesh().dz -= 0.1f;
         }
         if (event.type == sf::Event::Closed)
             window.close();

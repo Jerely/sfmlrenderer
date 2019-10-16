@@ -17,76 +17,75 @@ Mtx44 Mtx44::operator *(const Mtx44& mat) {
     return result;
 }
 
-Mtx44 MatrixQuickInverse(Mtx44 &m) // Only for Rotation/Translation Matrices
-{
-    Mtx44 matrix;
-    matrix.m[0][0] = m.m[0][0]; matrix.m[0][1] = m.m[1][0]; matrix.m[0][2] = m.m[2][0]; matrix.m[0][3] = 0.0f;
-    matrix.m[1][0] = m.m[0][1]; matrix.m[1][1] = m.m[1][1]; matrix.m[1][2] = m.m[2][1]; matrix.m[1][3] = 0.0f;
-    matrix.m[2][0] = m.m[0][2]; matrix.m[2][1] = m.m[1][2]; matrix.m[2][2] = m.m[2][2]; matrix.m[2][3] = 0.0f;
-    matrix.m[3][0] = -(m.m[3][0] * matrix.m[0][0] + m.m[3][1] * matrix.m[1][0] + m.m[3][2] * matrix.m[2][0]);
-    matrix.m[3][1] = -(m.m[3][0] * matrix.m[0][1] + m.m[3][1] * matrix.m[1][1] + m.m[3][2] * matrix.m[2][1]);
-    matrix.m[3][2] = -(m.m[3][0] * matrix.m[0][2] + m.m[3][1] * matrix.m[1][2] + m.m[3][2] * matrix.m[2][2]);
-    matrix.m[3][3] = 1.0f;
-    return matrix;
+Mtx44 Mtx44::rotateY(float angle) {
+    Mtx44 out;
+    out.m[0][0] = cosf(angle);
+    out.m[0][2] = -sinf(angle);
+    out.m[1][1] = 1.0f;
+    out.m[2][0] = sinf(angle);
+    out.m[2][2] = cosf(angle);
+    out.m[3][3] = 1.0f;
+    return out;
 }
 
-void Mtx44::rotateY(float angle) {
-    m[0][0] = cosf(angle);
-    m[0][2] = -sinf(angle);
-    m[1][1] = 1.0f;
-    m[2][0] = sinf(angle);
-    m[2][2] = cosf(angle);
-    m[3][3] = 1.0f;
+Mtx44 Mtx44::rotateX(float angle) {
+    Mtx44 out;
+    out.m[0][0] = 1.0f;
+    out.m[1][1] = cosf(angle);
+    out.m[1][2] = sinf(angle);
+    out.m[2][1] = -sinf(angle);
+    out.m[2][2] = cosf(angle);
+    out.m[3][3] = 1.0f;
+    return out;
 }
 
-void Mtx44::rotateX(float angle) {
-    m[0][0] = 1.0f;
-    m[1][1] = cosf(angle);
-    m[1][2] = sinf(angle);
-    m[2][1] = -sinf(angle);
-    m[2][2] = cosf(angle);
-    m[3][3] = 1.0f;
-}
-
-void Mtx44::rotateZ(float angle) {
-    m[0][0] = cosf(angle);
-    m[0][1] = sinf(angle);
-    m[1][0] = -sinf(angle);
-    m[1][1] = cosf(angle);
-    m[2][2] = 1.0f;
-    m[3][3] = 1.0f;
+Mtx44 Mtx44::rotateZ(float angle) {
+    Mtx44 out;
+    out.m[0][0] = cosf(angle);
+    out.m[0][1] = sinf(angle);
+    out.m[1][0] = -sinf(angle);
+    out.m[1][1] = cosf(angle);
+    out.m[2][2] = 1.0f;
+    out.m[3][3] = 1.0f;
+    return out;
 }
 
 
-void Mtx44::project(float ar,
+Mtx44 Mtx44::project(float ar,
                      float near,
                      float far,
                      float fov)
 {
+    Mtx44 out;
     float range = far - near;
     float tanHalfFov = tanf(fov * .5f / 180.0f * 3.14159f);
 
-    m[0][0] = 1.0f / (tanHalfFov * ar);
-    m[1][1] = 1.0f / tanHalfFov;
-    m[2][2] = far / range;
-    m[2][3] = 1.0f;
-    m[3][2] = - far * near / range;
+    out.m[0][0] = 1.0f / (tanHalfFov * ar);
+    out.m[1][1] = 1.0f / tanHalfFov;
+    out.m[2][2] = far / range;
+    out.m[2][3] = 1.0f;
+    out.m[3][2] = - far * near / range;
+    return out;
 }
 
-void Mtx44::translate(float x, float y, float z)
+Mtx44 Mtx44::translate(float x, float y, float z)
 {
-    m[0][0] = 1.0f;
-    m[1][1] = 1.0f;
-    m[2][2] = 1.0f;
-    m[3][3] = 1.0f;
-    m[3][0] = x;
-    m[3][1] = y;
-    m[3][2] = z;
+    Mtx44 out;
+    out.m[0][0] = 1.0f;
+    out.m[1][1] = 1.0f;
+    out.m[2][2] = 1.0f;
+    out.m[3][3] = 1.0f;
+    out.m[3][0] = x;
+    out.m[3][1] = y;
+    out.m[3][2] = z;
+    return out;
 }
 
-void Mtx44::scale(float q) {
-    m[0][0] = q;
-    m[1][1] = q;
-    m[2][2] = q;
-    m[3][3] = 1.0f;
+Mtx44 Mtx44::scale(float q) {
+    Mtx44 out;
+    out.m[0][0] = q;
+    out.m[1][1] = q;
+    out.m[2][2] = q;
+    out.m[3][3] = 1.0f;
+    return out;
 }

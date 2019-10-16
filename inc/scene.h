@@ -7,6 +7,7 @@
 #include "mtx44.h"
 #include "camera.h"
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 extern const int WIDTH;
 extern const int HEIGHT;
@@ -15,30 +16,18 @@ extern const int SCALEW;
 extern const int SCALEH;
 
 struct Scene {
-    Mtx44 matProj,
-          matScale,
-          matTranslate,
-          matRotY,
-          matRotX,
-          matRotZ,
-          matCamera,
-          matSRT;
+    Mtx44 matProj;
 
-    Mesh cube,
-        square; //for testing
-    float thetaX, thetaY, thetaZ, dx, dy, dz; 
+    std::vector<Mesh> meshes;
+    int curMesh;
     RenderingMode mode;
-
-    Camera camera;
 
     void draw(uint8_t*);
     void drawMesh(const Mesh& mesh, uint8_t* bitmap);
     void projectManually(const Vec4&, Vec4&); //for debug
-    void initSquare(); //for debug
-    void initCube();
     void project();
     void update();
     Scene();
+    Mesh& getCurMesh();
 };
 
-void fillPixels(uint8_t* bitmap, Color color);

@@ -3,15 +3,13 @@
 struct Mtx44 {
     float m[4][4];
     Mtx44 operator *(const Mtx44&);
-    void rotateX(float angle);
-    void rotateY(float angle);
-    void rotateZ(float angle);
-    void translate(float, float, float);
-    void scale(float q);
-    void project(float, float, float, float);
+    static Mtx44 rotateX(float angle);
+    static Mtx44 rotateY(float angle);
+    static Mtx44 rotateZ(float angle);
+    static Mtx44 translate(float, float, float);
+    static Mtx44 scale(float q);
+    static Mtx44 project(float, float, float, float);
     Mtx44();
 };
-
-Mtx44 MatrixQuickInverse(Mtx44 &m);
 
 
