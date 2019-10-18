@@ -2,7 +2,7 @@
 #include "triangle.h"
 
 struct Mesh {
-    vector<Triangle> tris;
+    std::vector<Triangle> tris;
     Mtx44 matScale,
         matTranslate,
         matRotY,

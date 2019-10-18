@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 extern sf::RenderWindow* pWindow;
 
+extern bool perspectiveCorrect;
+
 enum RenderingMode {
     WIREFRAME, COLORED
 };

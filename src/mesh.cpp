@@ -1,6 +1,5 @@
 #include "mesh.h"
 
-
 Mesh initSquare()
 {
     Mesh out;

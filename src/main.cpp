@@ -5,9 +5,13 @@
 #include "vec4.h"
 #include "scene.h"
 #include "timer.h"
+#include "triangle.h"
 #include <ctime>
 #include <windows.h>
 #include <iostream>
+using namespace std;
+
+bool perspectiveCorrect = false;
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
@@ -21,7 +25,8 @@ sf::RenderWindow* pWindow = NULL;
     static sf::Texture texture;
     static sf::Sprite sprite;
 
-void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap) {
+void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap)
+{
     image.create(WIDTH, HEIGHT, bitmap); 
     texture.loadFromImage(image); 
     sprite.setTexture(texture);
@@ -31,7 +36,8 @@ void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap) {
     window.display();
 }
 
-void fillPixels(uint8_t* bitmap, Color color) {
+void fillPixels(uint8_t* bitmap, Color color)
+{
     for(uint32_t y = 0; y < HEIGHT; y++) {
         for(uint32_t x = 0; x < WIDTH; x++) {
             setPixel(bitmap, x, y, color);
@@ -39,10 +45,17 @@ void fillPixels(uint8_t* bitmap, Color color) {
     }
 }
 
-void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window) {
+void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window)
+{
     sf::Event event;
     while (window.pollEvent(event))
     {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+            perspectiveCorrect = true;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
+            perspectiveCorrect = false;
+        }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
             scene.mode = WIREFRAME;
         }
@@ -115,7 +128,10 @@ int main()
         timer.endFrame = clock();
         timer.calcFps();
         if(timer.ready) {
-            cout << "FPS: " << timer.frameRate << " Frame time: " <<  timer.avgFrameTimeMs << endl;
+            //cout << "FPS: " << timer.frameRate << " Frame time: " <<  timer.avgFrameTimeMs << endl;
+            char str[64] = {0};
+            sprintf_s(str, "FPS: %.2f Frame time: %.2f\n", timer.frameRate, timer.avgFrameTimeMs);
+            window.setTitle(str);
             timer.ready = false;
         }
     }

@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "mtx44.h"
-using namespace std;
 
 struct Vec4 {
     float x, y, z, w;
