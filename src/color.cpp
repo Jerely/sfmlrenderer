@@ -25,6 +25,7 @@ int floatToInt(int imin, int imax, float fmin, float fmax, float f) {
 }
 
 
-Vec4 Color::toVec3() {
+Vec4 Color::toVec3() const
+{
     return Vec4(byteToNorm(r), byteToNorm(g), byteToNorm(b));
 }

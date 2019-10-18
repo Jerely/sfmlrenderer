@@ -3,10 +3,10 @@
 const uint32_t NEAR = 1.0f;
 const uint32_t FAR = 1000.0f;
 
-Scene::Scene() :
+Scene::Scene(uint8_t* bitmap) :
     meshes{initCube(), initSquare()},
     curMesh(0),
-    mode(COLORED) 
+    rasterizer(bitmap)
 {
     matProj = Mtx44::project((float)WIDTH/(float)HEIGHT, NEAR, FAR, 45.0f);
 };
@@ -22,13 +22,13 @@ Mesh& Scene::getCurMesh()
     return meshes[curMesh];
 }
 
-void Scene::draw(uint8_t* bitmap)
+void Scene::draw()
 {
     for(int i = 0; i < 2; ++i)
-        drawMesh(meshes[i], bitmap);
+        drawMesh(meshes[i]);
 }
 
-void Scene::drawMesh(const Mesh& mesh, uint8_t* bitmap)
+void Scene::drawMesh(const Mesh& mesh)
 {
     for(auto tri : mesh.tris) {
         Triangle srt = tri;
@@ -44,7 +44,7 @@ void Scene::drawMesh(const Mesh& mesh, uint8_t* bitmap)
                 proj.v[i].p.w = 1 / proj.v[i].p.w;
                 //projectManually(srt.v[i].p, proj.v[i].p);
             }
-                proj.draw(mode, bitmap);
+                rasterizer.draw(proj);
         }
     }
 }

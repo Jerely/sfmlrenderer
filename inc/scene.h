@@ -6,6 +6,7 @@
 #include "mesh.h"
 #include "mtx44.h"
 #include "camera.h"
+#include "rasterizer.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
@@ -20,14 +21,14 @@ struct Scene {
 
     std::vector<Mesh> meshes;
     int curMesh;
-    RenderingMode mode;
+    Rasterizer rasterizer;
 
-    void draw(uint8_t*);
-    void drawMesh(const Mesh& mesh, uint8_t* bitmap);
+    void draw();
+    void drawMesh(const Mesh& mesh);
     void projectManually(const Vec4&, Vec4&); //for debug
     void project();
     void update();
-    Scene();
+    Scene(uint8_t*);
     Mesh& getCurMesh();
 };
 

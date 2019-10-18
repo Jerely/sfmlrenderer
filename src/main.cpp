@@ -11,19 +11,15 @@
 #include <iostream>
 using namespace std;
 
-bool perspectiveCorrect = false;
-
 const int WIDTH = 800;
 const int HEIGHT = 600;
 const float FOV = 90.0f;
 const int SCALEW = 1;
 const int SCALEH = 1;
 
-sf::RenderWindow* pWindow = NULL;
-
-    static sf::Image image;
-    static sf::Texture texture;
-    static sf::Sprite sprite;
+static sf::Image image;
+static sf::Texture texture;
+static sf::Sprite sprite;
 
 void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap)
 {
@@ -51,16 +47,16 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window)
     while (window.pollEvent(event))
     {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-            perspectiveCorrect = true;
+            scene.rasterizer.perspectiveCorrect = true;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
-            perspectiveCorrect = false;
+            scene.rasterizer.perspectiveCorrect = false;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-            scene.mode = WIREFRAME;
+            scene.rasterizer.mode = WIREFRAME;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-            scene.mode = COLORED;
+            scene.rasterizer.mode = COLORED;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
             scene.curMesh = 0;
@@ -110,7 +106,7 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window)
     
     fillPixels(bitmap, BLA);
     scene.update();
-    scene.draw(bitmap);
+    scene.draw();
     displayBitmap(window, bitmap);
 }
 
@@ -118,8 +114,7 @@ int main()
 {
     uint8_t* bitmap = new uint8_t[WIDTH*HEIGHT*4];
     sf::RenderWindow window(sf::VideoMode(WIDTH*SCALEW, HEIGHT*SCALEH), "SFML window");
-    pWindow = &window;
-    Scene scene;
+    Scene scene(bitmap);
     Timer timer;
     while (window.isOpen())
     {

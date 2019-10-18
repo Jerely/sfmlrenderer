@@ -7,7 +7,6 @@
 
 extern const int WIDTH;
 extern const int HEIGHT;
-extern sf::RenderWindow* pWindow;
 
 void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap);
 
