@@ -14,7 +14,7 @@ void Rasterizer::draw(const Triangle& tri)
             break;
         case COLORED:
             int iMinX, iMinY, iMaxX, iMaxY;
-            tri.intBoundaries(iMinX, iMinY, iMaxX, iMaxY);
+            tri.getBoundaries(iMinX, iMinY, iMaxX, iMaxY);
             for(int y = iMaxY; y >= iMinY; --y) {
                 for(int x = iMinX; x <= iMaxX; ++x) {
                     Vec4 p(intToFloat(0, WIDTH-1, -1.0f, 1.0f, x),

@@ -3,6 +3,7 @@
 #include "vec4.h"
 #include <cmath>
 #include <algorithm>
+using namespace std;
 
 Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2) :
 v{v0, v1, v2}
@@ -18,18 +19,12 @@ void Triangle::computeNorm()
     norm.normalize();
 }
 
-void Triangle::getBoundaries(float& minX, float& minY, float& maxX, float& maxY) const
+void Triangle::getBoundaries(int& iMinX, int& iMinY, int& iMaxX, int& iMaxY) const
 {
-    minX = std::min(v[0].p.x, std::min(v[1].p.x, v[2].p.x));
-    minY = std::min(v[0].p.y, std::min(v[1].p.y, v[2].p.y));
-    maxX = std::max(v[0].p.x, std::max(v[1].p.x, v[2].p.x));
-    maxY = std::max(v[0].p.y, std::max(v[1].p.y, v[2].p.y));
-}
-
-void Triangle::intBoundaries(int& iMinX, int& iMinY, int& iMaxX, int& iMaxY) const
-{
-    float minX, minY, maxX, maxY;
-    getBoundaries(minX, minY, maxX, maxY);
+    float minX = min(v[0].p.x, min(v[1].p.x, v[2].p.x));
+    float minY = min(v[0].p.y, min(v[1].p.y, v[2].p.y));
+    float maxX = max(v[0].p.x, max(v[1].p.x, v[2].p.x));
+    float maxY = max(v[0].p.y, max(v[1].p.y, v[2].p.y));
     iMinX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, minX);
     iMaxX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, maxX);
     iMinY = HEIGHT-1-floatToInt(0, HEIGHT-1, -1.0f, 1.0f, maxY);
