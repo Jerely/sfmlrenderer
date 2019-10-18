@@ -13,13 +13,17 @@ struct Vec4 {
     Vec4& operator*=(float);
     Vec4 operator+(Vec4 const &) const;
     Vec4 operator-(const Vec4&) const;
+    Vec4 operator-() const;
     Vec4 operator *(const float) const;
     Vec4 operator *(const Mtx44&) const;
+    Vec4 operator *(const Vec4&) const; // component-wise
     Vec4& operator/=(float);
+    static Vec4 reflect(const Vec4&, const Vec4&);
     
     Vec4 xyzCrossProduct(const Vec4&) const;
     float dotProduct(const Vec4&) const;
     void perspDiv();
     void normalize();
+    float len3() const;
 };
 

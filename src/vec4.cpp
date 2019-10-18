@@ -110,9 +110,39 @@ void Vec4::perspDiv() {
 }
 
 void Vec4::normalize() {
-    float len = sqrtf(x*x + y*y + z*z);
-    //float len = sqrtf(x*x + y*y + z*z);
+    float len = len3();
     x /= len;
     y /= len;
     z /= len;
+}
+
+float Vec4::len3() const
+{
+    return sqrtf(x*x + y*y + z*z); 
+}
+
+Vec4 Vec4::operator*(const Vec4& in) const
+{
+    Vec4 out;
+    out.x = x*in.x;
+    out.y = y*in.y;
+    out.z = z*in.z;
+    out.w = w*in.w;
+    return out;
+}
+
+Vec4 Vec4::operator-() const
+{
+    Vec4 out;
+    out.x = -x;
+    out.y = -y;
+    out.z = -z;
+    return out;
+}
+
+Vec4 Vec4::reflect(const Vec4& I, const Vec4& n)
+{
+    Vec4 out;
+    return n*n.dotProduct(I)*(-2);
+
 }
