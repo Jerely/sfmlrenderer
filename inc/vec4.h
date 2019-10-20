@@ -2,6 +2,8 @@
 #include <vector>
 #include "mtx44.h"
 
+struct Color;
+
 struct Vec4 {
     float x, y, z, w;
     Vec4(float, float, float, float);
@@ -19,11 +21,12 @@ struct Vec4 {
     Vec4 operator *(const Vec4&) const; // component-wise
     Vec4& operator/=(float);
     static Vec4 reflect(const Vec4&, const Vec4&);
+    Color toColor() const;
     
     Vec4 xyzCrossProduct(const Vec4&) const;
     float dotProduct(const Vec4&) const;
     void perspDiv();
-    void normalize();
+    Vec4& normalize();
     float len3() const;
 };
 

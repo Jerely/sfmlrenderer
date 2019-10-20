@@ -43,3 +43,38 @@ void Triangle::findBarycentricCoord(const Vec4& p, float& s, float& t) const
     s = ((v[1].p.y-v[2].p.y)*(p.x-v[2].p.x)+(v[2].p.x-v[1].p.x)*(p.y-v[2].p.y)) / ((v[1].p.y-v[2].p.y)*(v[0].p.x-v[2].p.x)+(v[2].p.x-v[1].p.x)*(v[0].p.y-v[2].p.y));
     t = ((v[2].p.y-v[0].p.y)*(p.x-v[2].p.x)+(v[0].p.x-v[2].p.x)*(p.y-v[2].p.y)) / ((v[1].p.y-v[2].p.y)*(v[0].p.x-v[2].p.x)+(v[2].p.x-v[1].p.x)*(v[0].p.y-v[2].p.y));
 }
+
+void Triangle::determineColor(float s, float t, Vec4& vecColor) const
+{
+    const Vertex& v0 = v[0];
+    const Vertex& v1 = v[1];
+    const Vertex& v2 = v[2];
+    //получаем третью координату
+    float u = 1 - s - t;
+
+    //преобразуем цвета из формата int8*3 в формат float*3
+    Vec4 c0 = v0.color.toVec3();
+    Vec4 c1 = v1.color.toVec3();
+    Vec4 c2 = v2.color.toVec3();
+    
+    //делим цвета на координату z
+    //if(perspectiveCorrect) {
+        c0 *= v0.p.w;
+        c1 *= v1.p.w;
+        c2 *= v2.p.w;
+
+    //интерполируем цвета
+    vecColor = c0 * s + c1 * t + c2 * u;
+
+    //Для корректной с точки зрения перспективы интерполяци мы умножаем
+    //результат на z, глубину точки на трехмерном треугольнике, который
+    //пиксель перекрывает.
+    //if(perspectiveCorrect) {
+        float z = 1 / (s * v0.p.w + t * v1.p.w + u * v2.p.w);
+        vecColor *= z;
+}
+
+void Triangle::findPointInWorld(float s, float t, Vec4& pos) const
+{
+    //not implemented
+}

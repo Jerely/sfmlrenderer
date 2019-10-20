@@ -1,5 +1,6 @@
 #include "vec4.h"
 #include <cmath>
+#include "color.h"
 
 
 Vec4::Vec4(float x, float y, float z, float w) :
@@ -109,11 +110,12 @@ void Vec4::perspDiv() {
     }
 }
 
-void Vec4::normalize() {
+Vec4& Vec4::normalize() {
     float len = len3();
     x /= len;
     y /= len;
     z /= len;
+    return *this;
 }
 
 float Vec4::len3() const
@@ -145,4 +147,16 @@ Vec4 Vec4::reflect(const Vec4& I, const Vec4& n)
     Vec4 out;
     return n*n.dotProduct(I)*(-2);
 
+}
+
+Color Vec4::toColor() const
+{
+    Color color;
+    //Преобразуем обратно в формат int8*3
+    color.r = (uint8_t) floatToInt(0, 255, .0f, 1.0f, x);
+    color.g = (uint8_t) floatToInt(0, 255, .0f, 1.0f, y);
+    color.b = (uint8_t) floatToInt(0, 255, .0f, 1.0f, z);
+    //color.a = (uint8_t) floatToInt(0, 255, .0f, 1.0f, vecColor.w);
+    color.a = 255;
+    return color;
 }

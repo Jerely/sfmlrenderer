@@ -31,10 +31,10 @@ struct Rasterizer
     bool perspectiveCorrect;
     uint8_t* bitmap;
     void draw(const Triangle&);
-    void determineColor(const Triangle&, float s, float t, Color& color);
     void computeLight(const Vec4&, const Vec4&, const Vec4&, Vec4&);
     Rasterizer(uint8_t*);
     void drawWireframe(const Triangle&);
     void drawColored(const Triangle&);
     void drawPhong(const Triangle&);
+    void findPointInWorld(const Triangle&, float, float, Vec4&);
 };

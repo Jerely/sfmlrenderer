@@ -11,6 +11,8 @@ struct Triangle {
     void getBoundaries(int& iMinX, int& iMinY, int& iMaxX, int& iMaxY) const;
     bool pointIsIn(float s, float t) const;
     void findBarycentricCoord(const Vec4& p, float& s, float& t) const;
+    void determineColor(float s, float t, Vec4& vecColor) const;
+    void findPointInWorld(float s, float, Vec4&) const;
 };
 
 
