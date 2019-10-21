@@ -19,10 +19,10 @@ void Rasterizer::draw(const Triangle& tri)
 Rasterizer::Rasterizer(uint8_t* bitmap) :
     mat{Vec4(.5f,.5f,.5f),
         Vec4(.5f,.5f,.5f),
-        Vec4(.5f,.5f,.5f, 10.0f)},
+        Vec4(.5f,.5f,.5f, 2.0f)},
     light{Vec4(),
           Vec4(.5f),
-          Vec4(.0f, .5f, .5f),
+          Vec4(.1f, .1f, .1f),
           Vec4(),
           100.0f},
     mode(PHONG),
@@ -68,7 +68,7 @@ void Rasterizer::computeLight(const Vec4& pos, const Vec4& normal, const Vec4& t
     }
 
     // Attenuate
-    float att = 1.0f / d*d;
+    float att = 1.0f / (d*d / 25.0f);
 
     diffuse *= att;
     spec *= att;
