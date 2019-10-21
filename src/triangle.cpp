@@ -22,16 +22,16 @@ void Triangle::computeNorm()
     norm.normalize();
 }
 
-void Triangle::getBoundaries(int& iMinX, int& iMinY, int& iMaxX, int& iMaxY) const
+void Triangle::getBoundingSquare(BoundSquare& bs) const
 {
     float minX = min(v[0].p.x, min(v[1].p.x, v[2].p.x));
     float minY = min(v[0].p.y, min(v[1].p.y, v[2].p.y));
     float maxX = max(v[0].p.x, max(v[1].p.x, v[2].p.x));
     float maxY = max(v[0].p.y, max(v[1].p.y, v[2].p.y));
-    iMinX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, minX);
-    iMaxX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, maxX);
-    iMinY = HEIGHT-1-floatToInt(0, HEIGHT-1, -1.0f, 1.0f, maxY);
-    iMaxY = HEIGHT-1-floatToInt(0, HEIGHT-1, -1.0f, 1.0f, minY);
+    bs.minX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, minX);
+    bs.maxX = floatToInt(0, WIDTH-1, -1.0f, 1.0f, maxX);
+    bs.minY = HEIGHT-1-floatToInt(0, HEIGHT-1, -1.0f, 1.0f, maxY);
+    bs.maxY = HEIGHT-1-floatToInt(0, HEIGHT-1, -1.0f, 1.0f, minY);
 }
 
 bool Triangle::pointIsIn(float s, float t) const
