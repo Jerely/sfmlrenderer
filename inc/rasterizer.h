@@ -52,8 +52,6 @@ struct Rasterizer
     void computeLight(const Vec4&, const Vec4&, const Vec4&, Vec4&) const;
     Rasterizer(uint8_t*);
     void drawWireframe(const Triangle&);
-    void drawColored(const Triangle&);
-    void drawPhong(const Triangle&);
     void findPointInWorld(const Triangle&, float, float, Vec4&);
     void colorize(const Triangle&, Shader& shader);
     void phongShading(const Triangle&, float, float, Vec4&) const;

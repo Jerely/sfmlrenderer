@@ -92,47 +92,7 @@ void Rasterizer::drawWireframe(const Triangle& tri)
     plotLine(v1.p.x, v1.p.y, v2.p.x, v2.p.y, bitmap); 
 }
 
-void Rasterizer::drawColored(const Triangle& tri)
-{
-    BoundSquare bs;
-    tri.getBoundingSquare(bs);
-    for(int y = bs.maxY; y >= bs.minY; --y) {
-        for(int x = bs.minX; x <= bs.maxX; ++x) {
-            Vec4 p(intToFloat(0, WIDTH-1, -1.0f, 1.0f, x),
-                   intToFloat(0, HEIGHT-1, -1.0f, 1.0f, HEIGHT-1-y));
-            //s,t and 1 - s - t are called the barycentric coordinates of the point p.
-            float s, t;
-            tri.findBarycentricCoord(p, s, t);
-            if(tri.pointIsIn(s, t)) {
-                Vec4 vecColor;
-                falseShading(tri, s, t, vecColor);
-                Color color = vecColor.toColor();
-                setPixel(bitmap, x, y, color);
-            }
-        }
-    }
-}
 
-void Rasterizer::drawPhong(const Triangle& tri)
-{
-    BoundSquare bs;
-    tri.getBoundingSquare(bs);
-    for(int y = bs.maxY; y >= bs.minY; --y) {
-        for(int x = bs.minX; x <= bs.maxX; ++x) {
-            Vec4 p(intToFloat(0, WIDTH-1, -1.0f, 1.0f, x),
-                   intToFloat(0, HEIGHT-1, -1.0f, 1.0f, HEIGHT-1-y));
-            //s,t and 1 - s - t are called the barycentric coordinates of the point p.
-            float s, t;
-            tri.findBarycentricCoord(p, s, t);
-            if(tri.pointIsIn(s, t)) {
-                Vec4 vecColor;
-                phongShading(tri, s, t, vecColor);
-                Color color = vecColor.toColor();
-                setPixel(bitmap, x, y, color);
-            }
-        }
-    }
-}
 
 void Rasterizer::colorize(const Triangle& tri, Shader& shader)
 {
