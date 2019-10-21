@@ -12,6 +12,9 @@ Vec4::Vec4(float x, float y) :
 Vec4::Vec4(float x, float y, float z) :
     x(x), y(y), z(z), w(1.0f) {};
 
+Vec4::Vec4(float x) :
+    x(x), y(0), z(0), w(1.0f) {};
+
 Vec4::Vec4() :
     x(.0f), y(.0f), z(.0f), w(1.0f) {};
 

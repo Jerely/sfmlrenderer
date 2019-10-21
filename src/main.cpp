@@ -58,6 +58,9 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window)
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
             scene.rasterizer.mode = COLORED;
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+            scene.rasterizer.mode = PHONG;
+        }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
             scene.curMesh = 0;
         }
@@ -99,6 +102,14 @@ void render(uint8_t* bitmap, Scene& scene, sf::RenderWindow& window)
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
             scene.getCurMesh().z -= 0.1f;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+            scene.rasterizer.mat.spec.w += 1.0f;
+            cout << "spec: " << scene.rasterizer.mat.spec.w << endl;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+            scene.rasterizer.mat.spec.w -= 1.0f;
+            cout << "spec: " << scene.rasterizer.mat.spec.w << endl;
         }
         if (event.type == sf::Event::Closed)
             window.close();

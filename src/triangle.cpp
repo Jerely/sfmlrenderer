@@ -49,9 +49,10 @@ void Triangle::findBarycentricCoord(const Vec4& p, float& s, float& t) const
 
 void Triangle::determineColor(float s, float t, Vec4& vecColor) const
 {
-    const Vertex& v0 = v[0];
-    const Vertex& v1 = v[1];
-    const Vertex& v2 = v[2];
+#define v0 (v[0])
+#define v1 (v[1])
+#define v2 (v[2])
+
     //получаем третью координату
     float u = 1 - s - t;
 
@@ -77,7 +78,14 @@ void Triangle::determineColor(float s, float t, Vec4& vecColor) const
         vecColor *= z;
 }
 
-void Triangle::findPointInWorld(float s, float t, Vec4& pos) const
+void Triangle::findPointInWorld(float s, float t, Vec4& pos) const 
 {
-    //not implemented
+    float u = 1 - s - t;
+    Vec4 wPos0 = v0.wPos * v0.p.w;
+    Vec4 wPos1 = v1.wPos * v1.p.w;
+    Vec4 wPos2 = v2.wPos * v2.p.w;
+
+    pos = wPos0 * s + wPos1 * t + wPos2 * u;
+    float z = 1 / (s * v0.p.w + t * v1.p.w + u * v2.p.w);
+    pos *= z;
 }

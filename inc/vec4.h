@@ -9,6 +9,7 @@ struct Vec4 {
     Vec4(float, float, float, float);
     Vec4(float, float, float);
     Vec4(float, float);
+    Vec4(float);
     Vec4();
     Vec4& operator+=(Vec4 const &);
     Vec4& operator-=(Vec4 const &);

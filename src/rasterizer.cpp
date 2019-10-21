@@ -19,8 +19,13 @@ void Rasterizer::draw(const Triangle& tri)
 Rasterizer::Rasterizer(uint8_t* bitmap) :
     mat{Vec4(.5f,.5f,.5f),
         Vec4(.5f,.5f,.5f),
-        Vec4(.5f,.5f,.5f)},
-    mode(COLORED),
+        Vec4(.5f,.5f,.5f, 10.0f)},
+    light{Vec4(),
+          Vec4(.5f),
+          Vec4(.0f, .5f, .5f),
+          Vec4(),
+          100.0f},
+    mode(PHONG),
     perspectiveCorrect(true),
     bitmap(bitmap)
 {};
