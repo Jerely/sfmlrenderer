@@ -5,16 +5,19 @@
 #include <algorithm>
 using namespace std;
 
-Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2) :
-v{v0, v1, v2}
-{};
+Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2)
+{
+    v[0] = v0;
+    v[1] = v1;
+    v[2] = v2;
+};
 
 Triangle::Triangle() {};
 
 void Triangle::computeNorm()
 {
-    Vec4 line1 = v[1].p - v[0].p;
-    Vec4 line2 = v[2].p - v[0].p;
+    Vec4 line1 = v[1].wPos - v[0].wPos;
+    Vec4 line2 = v[2].wPos - v[0].wPos;
     norm = line1.xyzCrossProduct(line2);
     norm.normalize();
 }

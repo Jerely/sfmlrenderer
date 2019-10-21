@@ -40,9 +40,9 @@ Mesh initCube()
 
     for(int k = 0; k < 12; ++k) {
         for(int i = 0; i < 3; ++i) {
-            out.tris[k].v[i].color.r = floatToInt(0, 255, -1.0f, 1.0f, out.tris[k].v[i].p.x);
-            out.tris[k].v[i].color.g = floatToInt(0, 255, -1.0f, 1.0f, out.tris[k].v[i].p.y);
-            out.tris[k].v[i].color.b = floatToInt(0, 255, -1.0f, 1.0f, out.tris[k].v[i].p.z);
+            out.tris[k].v[i].color.r = floatToInt(0, 255, -1.0f, 1.0f, out.tris[k].v[i].lPos.x);
+            out.tris[k].v[i].color.g = floatToInt(0, 255, -1.0f, 1.0f, out.tris[k].v[i].lPos.y);
+            out.tris[k].v[i].color.b = floatToInt(0, 255, -1.0f, 1.0f, out.tris[k].v[i].lPos.z);
             out.tris[k].v[i].color.a = 255;
         }
     }

@@ -24,7 +24,7 @@ struct Scene {
     Rasterizer rasterizer;
 
     void draw();
-    void drawMesh(const Mesh& mesh);
+    void drawMesh(Mesh& mesh);
     void projectManually(const Vec4&, Vec4&); //for debug
     void project();
     void update();

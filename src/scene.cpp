@@ -28,23 +28,23 @@ void Scene::draw()
         drawMesh(meshes[i]);
 }
 
-void Scene::drawMesh(const Mesh& mesh)
+void Scene::drawMesh(Mesh& mesh)
 {
-    for(auto tri : mesh.tris) {
-        Triangle srt = tri;
+    //for(int j = 0; j < mesh.tris.size(); ++j) {
+    for(auto& srt : mesh.tris) {
+        //#define srt mesh.tris[j]
         for(int i = 0; i < 3; ++i) {
-            srt.v[i].p = (tri.v[i].p * mesh.matSRT);
+            srt.v[i].wPos = (srt.v[i].lPos * mesh.matSRT);
         }
         srt.computeNorm();
-        if(srt.norm.dotProduct(srt.v[0].p) < 0) {
-            Triangle proj = srt;
+        if(srt.norm.dotProduct(srt.v[0].wPos) < 0) {
             for(int i = 0; i < 3; ++i) {
-                proj.v[i].p = srt.v[i].p * matProj;
-                proj.v[i].p.perspDiv();
-                proj.v[i].p.w = 1 / proj.v[i].p.w;
+                srt.v[i].p = srt.v[i].wPos * matProj;
+                srt.v[i].p.perspDiv();
+                srt.v[i].p.w = 1 / srt.v[i].p.w;
                 //projectManually(srt.v[i].p, proj.v[i].p);
             }
-                rasterizer.draw(proj);
+                rasterizer.draw(srt);
         }
     }
 }
