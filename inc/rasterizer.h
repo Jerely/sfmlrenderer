@@ -1,23 +1,9 @@
 #pragma once
 #include "triangle.h"
+#include <functional>
 
 struct Rasterizer;
-
-struct Shader
-{
-    virtual void operator()(const Rasterizer&, const Triangle&, float, float, Vec4&) = 0;
-};
-
-struct PhongShader : public Shader
-{
-    virtual void operator()(const Rasterizer&, const Triangle&, float, float, Vec4&) override;
-};
-
-struct FalseShader : public Shader
-{
-    virtual void operator()(const Rasterizer&, const Triangle&, float, float, Vec4&) override;
-};
-
+typedef std::function<void(const Rasterizer&, const Triangle&, float, float, Vec4&)> Shader;
 
 enum RenderingMode
     {
@@ -53,7 +39,7 @@ struct Rasterizer
     Rasterizer(uint8_t*);
     void drawWireframe(const Triangle&);
     void findPointInWorld(const Triangle&, float, float, Vec4&);
-    void colorize(const Triangle&, Shader& shader);
+    void colorize(const Triangle&, Shader);
     void phongShading(const Triangle&, float, float, Vec4&) const;
     void falseShading(const Triangle&, float, float, Vec4&) const;
 };

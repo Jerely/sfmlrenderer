@@ -1,21 +1,28 @@
 #include "rasterizer.h"
 #include "line.h"
 
-PhongShader phongShader;
-FalseShader falseShader;
+
 
 void Rasterizer::draw(const Triangle& tri)
 {
+    static Shader phongShader =
+        [] (const Rasterizer& r, const Triangle& tri, float s, float t, Vec4& vecColor)
+        {
+            r.phongShading(tri, s, t, vecColor);
+        };
+    static Shader falseShader =
+        [] (const Rasterizer& r, const Triangle& tri, float s, float t, Vec4& vecColor)
+        {
+            r.falseShading(tri, s, t, vecColor);
+        };
     switch(mode) {
         case WIREFRAME:
             drawWireframe(tri);
             break;
         case COLORED:
-            //drawColored(tri);
             colorize(tri, falseShader);
             break;
         case PHONG:
-            //drawPhong(tri);
             colorize(tri, phongShader);
             break;
     }
@@ -34,7 +41,6 @@ Rasterizer::Rasterizer(uint8_t* bitmap) :
     perspectiveCorrect(true),
     bitmap(bitmap)
 {};
-
 
 void Rasterizer::computeLight(const Vec4& pos, const Vec4& normal, const Vec4& toEye, Vec4& color) const
 {
@@ -92,9 +98,19 @@ void Rasterizer::drawWireframe(const Triangle& tri)
     plotLine(v1.p.x, v1.p.y, v2.p.x, v2.p.y, bitmap); 
 }
 
+void Rasterizer::phongShading(const Triangle& tri, float s, float t, Vec4& vecColor) const
+{
+    Vec4 pos;
+    tri.findPointInWorld(s, t, pos);
+    computeLight(pos, tri.norm, (eyePos-pos).normalize(), vecColor);
+}
 
+void Rasterizer::falseShading(const Triangle& tri, float s, float t, Vec4& vecColor) const
+{
+    tri.determineColor(s, t, vecColor);
+}
 
-void Rasterizer::colorize(const Triangle& tri, Shader& shader)
+void Rasterizer::colorize(const Triangle& tri, Shader shader)
 {
     BoundSquare bs;
     tri.getBoundingSquare(bs);
@@ -113,26 +129,4 @@ void Rasterizer::colorize(const Triangle& tri, Shader& shader)
             }
         }
     }
-}
-
-void Rasterizer::phongShading(const Triangle& tri, float s, float t, Vec4& vecColor) const
-{
-    Vec4 pos;
-    tri.findPointInWorld(s, t, pos);
-    computeLight(pos, tri.norm, (eyePos-pos).normalize(), vecColor);
-}
-
-void Rasterizer::falseShading(const Triangle& tri, float s, float t, Vec4& vecColor) const
-{
-    tri.determineColor(s, t, vecColor);
-}
-
-void PhongShader::operator()(const Rasterizer& r, const Triangle& tri, float s, float t, Vec4& vecColor)
-{
-    r.phongShading(tri, s, t, vecColor);
-}
-
-void FalseShader::operator()(const Rasterizer& r, const Triangle& tri, float s, float t, Vec4& vecColor)
-{
-    r.falseShading(tri, s, t, vecColor);
 }
