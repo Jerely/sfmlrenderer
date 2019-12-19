@@ -15,6 +15,7 @@ Mesh initSquare()
     out.x = -2.0f;
     out.y = 2.0f;
     out.z = 6.0f;
+	out.isAlwaysWireframe = true;
     return out;
 }
 
@@ -53,6 +54,7 @@ Mesh initCube()
     out.x = 0;
     out.y = 0;
     out.z = 6.0f;
+	out.isAlwaysWireframe = false;
     return out;
 }
 

@@ -4,16 +4,25 @@ const uint32_t NEAR = 1.0f;
 const uint32_t FAR = 1000.0f;
 
 Scene::Scene(uint8_t* bitmap) :
-    meshes{initCube(), initSquare()},
+    meshes{initCube(), initSquare(), initSquare(), initSquare()},
     curMesh(0),
     rasterizer(bitmap)
 {
+	meshes[1].x = rasterizer.light0.pos.x;
+	meshes[1].y = rasterizer.light0.pos.y;
+	meshes[1].z = rasterizer.light0.pos.z;
+	meshes[2].x = rasterizer.light1.pos.x;
+	meshes[2].y = rasterizer.light1.pos.y;
+	meshes[2].z = rasterizer.light1.pos.z;
+	meshes[3].x = rasterizer.light2.pos.x;
+	meshes[3].y = rasterizer.light2.pos.y;
+	meshes[3].z = rasterizer.light2.pos.z;
     matProj = Mtx44::project((float)WIDTH/(float)HEIGHT, NEAR, FAR, 45.0f);
 };
 
 void Scene::update()
 {
-    for(int i = 0; i < 2; ++i)
+    for(int i = 0; i < 4; ++i)
         meshes[i].update();
 }
 
@@ -24,7 +33,7 @@ Mesh& Scene::getCurMesh()
 
 void Scene::draw()
 {
-    for(int i = 0; i < 2; ++i)
+    for(int i = 0; i < 4; ++i)
         drawMesh(meshes[i]);
 }
 
@@ -44,7 +53,7 @@ void Scene::drawMesh(Mesh& mesh)
                 srt.v[i].p.w = 1 / srt.v[i].p.w;
                 //projectManually(srt.v[i].p, proj.v[i].p);
             }
-                rasterizer.draw(srt);
+                rasterizer.draw(srt, mesh.isAlwaysWireframe);
         }
     }
 }

@@ -47,7 +47,7 @@ void Triangle::findBarycentricCoord(const Vec4& p, float& s, float& t) const
     t = ((v[2].p.y-v[0].p.y)*(p.x-v[2].p.x)+(v[0].p.x-v[2].p.x)*(p.y-v[2].p.y)) / ((v[1].p.y-v[2].p.y)*(v[0].p.x-v[2].p.x)+(v[2].p.x-v[1].p.x)*(v[0].p.y-v[2].p.y));
 }
 
-void Triangle::determineColor(float s, float t, Vec4& vecColor) const
+void Triangle::interpolateColor(float s, float t, Vec4& vecColor) const
 {
 #define v0 (v[0])
 #define v1 (v[1])

@@ -11,7 +11,10 @@ extern const int HEIGHT;
 void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap);
 
 inline void setPixel(uint8_t* bitmap, uint32_t x, uint32_t y, Color color) {
-    ((uint32_t*)bitmap)[x+y*WIDTH] = color.toU32();
+	const uint32_t pixPos = x + y * WIDTH;
+	if (pixPos < HEIGHT * WIDTH) {
+		((uint32_t*)bitmap)[x+y*WIDTH] = color.toU32();
+	}
 }
 
 void plotLineLow(int x0, int y0, int x1, int y1, uint8_t* bitmap);

@@ -9,6 +9,7 @@ struct Mesh {
         matRotX,
         matRotZ,
         matSRT;
+	bool isAlwaysWireframe;
 
     float thetaX,
           thetaY,
