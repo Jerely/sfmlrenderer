@@ -21,7 +21,7 @@ static sf::Image image;
 static sf::Texture texture;
 static sf::Sprite sprite;
 
-void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap)
+static void displayBitmap(sf::RenderWindow& window, uint8_t* bitmap)
 {
     image.create(WIDTH, HEIGHT, bitmap); 
     texture.loadFromImage(image); 

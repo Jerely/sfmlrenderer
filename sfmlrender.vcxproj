@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\camera.h" />
     <ClInclude Include="inc\color.h" />
     <ClInclude Include="inc\line.h" />
     <ClInclude Include="inc\mesh.h" />
@@ -33,7 +32,6 @@
     <ClInclude Include="inc\vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\color.cpp" />
     <ClCompile Include="src\line.cpp" />
     <ClCompile Include="src\main.cpp" />

@@ -42,9 +42,6 @@
     <ClInclude Include="inc\vec4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -78,9 +75,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vec4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mesh.cpp">

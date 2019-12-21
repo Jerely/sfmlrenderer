@@ -5,7 +5,6 @@
 #include "triangle.h"
 #include "mesh.h"
 #include "mtx44.h"
-#include "camera.h"
 #include "rasterizer.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
